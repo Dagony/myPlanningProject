@@ -1,0 +1,26 @@
+{
+  "rules" : {
+    "indent" : [
+      "warn",
+      4
+    ],
+    "quote": [
+      "error",
+      "single"
+    ],
+    "semi" : [
+      "error",
+      "always"
+    ]
+  },
+  "extends" : [
+    "eslint:recommend"
+  ],
+  "env": {
+    "es6" : true,
+    "node" : true
+  },
+  "parseOptions" : {
+    "sourceType" : "module"
+  }
+}

@@ -1,11 +1,11 @@
 let data = {
     data: [
         {id: 1, text: 'Create QA orientation', start_date: '11-06-2018', duration: dateDiff(new Date(2018,6,11), new Date(2018,7,2)), progress: 0.10, text_detail: 'I will create a document for people when they join QA. This document should be the goto for when people join team Gatekeeper.'},
-        {id: 2, text: 'Making MA available for everybody', start_date: '02-07-2018', duration: dateDiff(new Date(2018,7,2), new Date(2018,8,24)), progress: calculateOverallProgress([0.00, 0.00, 0.05, 0.1])},
+        {id: 2, text: 'Making MA available for everybody', start_date: '02-07-2018', duration: dateDiff(new Date(2018,7,2), new Date(2018,8,24)), progress: calculateOverallProgress([0.00, 0.00, 0.05, 0.7])},
         {id: 21, text: 'QA-ers interview', parent: 2, start_date: '09-07-2018', duration: dateDiff(new Date(2018, 7, 9), new Date(2018,7,22)), progress: 0.00},
         {id: 22, text: 'Perform manual and automatic tests', parent: 2, start_date: '22-07-2018', duration: dateDiff(new Date(2018,7,22), new Date(2018,7,30)), progress: 0.00},
         {id: 23, text: 'Determine how to calculate MA', parent: 2, start_date: '30-07-2018', duration: dateDiff(new Date(2018,7,30), new Date(2018,8,8)), progress: 0.05},
-        {id: 24, text: 'Create react app to share MA', parent: 2, start_date: '13-08-2018', duration: dateDiff(new Date(2018,8,13), new Date(2018,8,24)), progress: 0.1},
+        {id: 24, text: 'Create react app to share MA', parent: 2, start_date: '13-08-2018', duration: dateDiff(new Date(2018,8,13), new Date(2018,8,24)), progress: 0.7},
 
         {id: 3, text: 'Improve MA to 80%', start_date: '24-08-2018', duration: dateDiff(new Date(2018,8,24), new Date(2018,10,21)), progress: 0.0 },
         {id: 31, text: 'Inventorize which tests need to be manual', parent: 3, start_date: '24-08-2018', duration: dateDiff(new Date(2018,8,24), new Date(2018,9,2)), progress: 0.0 },
