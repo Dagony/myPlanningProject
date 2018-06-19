@@ -1,0 +1,128 @@
+QA Initialization Process
+=========================
+Mark de Wit <mark.dewit@xillio.com>
+:Author: Mark de Wit <mark.dewit@xillio.com>
+:Version: v1.0, 2018-06-11
+:author: Mark de_Wit
+:email: mark.dewit@xillio.com
+:toc: left
+:icons: font
+
+
+*Introduction*
+
+Welcome to Xillio's Quality Assurance team, called Gatekeeper. We consider ourselfs to be the gatekeeper of Xillio. We determine that software that Xillio creates:
+
+. Has the right functionality
+. Integrates with all other functionality
+. Does not break current software
+. Performs to a set level
+
+If this terms do not scare you off, we will consider letting you join Gatekeeper!
+
+== Welcome to Gatekeeper!
+
+Let's sum up the requirements for working at the Gatekeeper team.
+
+=== Hardware
+
+To be able to QA at Xillio, you will need:
+
+* [*] Laptop provided by Xillio
+* [*] Door tag (or enough patience to wait for other people to open the door for you)
+
+=== Software
+
+To be able to QA at Xillio, you will need:
+
+* [*] IntelliJ
+* [*] Java 8 (latest update)
+* [*] Docker
+* [*] Microsoft office account for Email and Agenda
+
+=== Licences/Accounts
+
+* [*] link:https://www.jetbrains.com/[Jetbrains] (for IntelliJ)
+* [*] link:http://www.github.com[Github] account
+* [*] Tool for Agile project planning, like link:http://www.waffle.io[Waffle.io] or link:http://www.scrumwise.com[Scrumwise]
+
+
+== Process of testing an issue
+
+In short, the process of testing an issue is as follows.
+
+. First time you hear something about an issue could be when the issue is being issued on link:http://www.gihtub.com[Github] or when it is discussed in the planning session
+. In the planning session, the issue is being discussed between the product owner, the development team (your team). You will get input and ask for vulnerabilities the code will touch and other test cases
+. The issue will be developed when the team has planned (between planning and actually developing an issue might take a long time, but preferably this is the next sprint).
+. When the development team starts developing code for the issue, you will start setting up the tests. Preferable the developers will help you in setting up or help you write the tests.
+. When the development team is done developing the code for the issue, the code is passed to the QA-er. At this time, the fate of the issue is in your hands. Perform all test cases you want to. When a test fails, discuss with the developer(s):
+.. Was the requirement unclear?
+.. Was the test failure a system error?
+.. Was the test failure a bug? If so, the developer should/will pick up the issue again to fix the bug.
+. Depending on you team, you create/read documentation, a test report, notify the Product Owner of risks the code has introduced.
+. When you as a QA-er are convinced of the quality of the code for the issue, you approve the pull request on link:http://www.gihtub.com[Github].
+. When the Pull Request is approved by both the functional review (QA) and the code review (other developer), the Pull Request is marked as 'ready to merge'.
+
+=== Example of the process of testing an issue
+
+The example issue is link:https://github.com/xillio/xillio-engine/issues/72[Add date transformations]. So we open up the link to read the available information. Apparently the issue branch will add date transformations to the custom mappings (link:https://github.com/xillio/xillio-engine/issues/60[Epic custom mappings support]).
+
+The issue describes the fact that the transformation called 'parse-date' will have the input of ('string', 'format') and the output of ('year', 'hour', 'minute', etc...). The actual transformation will look like this:
+
+```
+{
+    "displayName" : "testDateTransformation",
+    "index" : 0,
+    "source" : {
+        "string" : "",
+        "format" : ""
+    },
+    "transforms" : {
+        "testParseDateTransformation" : {
+            "type" : "parse-date",
+            "args" : {
+                "string" : "$.source.data.string",
+                "format" : "$.source.data.format"
+            }
+        }
+    },
+    "target" : {
+        "myDateField" : "$.transforms.testParseDateTransformation.value"
+    }
+}
+```
+And because it was defined that the output should look like (year, hour, minute, etc...), I would expect that when the input was {string:"2018-06-11",format:"mm/dd/YYYY") the output will look like this:
+
+```
+{
+    "myDateField" : "06/11/2018"
+}
+```
+
+The transformation "format-date" will have the input ('date', 'format') and the output of ('value'). The actual transformation will look like this link:blabla[http://blog.stevenlevithan.com/archives/date-time-format]
+```
+{
+    "displayName" : "testDateTransformationFormatDate",
+    "index" : 0,
+    "source" : {
+        "string" : "",
+        "format" : ""
+    },
+    "transforms" : {
+        "testFormatDateTransformation" : {
+            "type" : "format-date",
+            "args" : {
+                "string" : "$.source.data.string",
+                "format" : "$.source.data.format"
+            }
+        }
+    },
+    "target" : {
+        "myDateField" : "$.transforms.testFormatDateTransformation.value"
+    }
+}
+```
+
+With this information it is time to pick the right tool for this test. We could consider using 'Postman', 'Rest-Assured', 'curl', etc. Postman will give us quick results with an interface to visually check the steps in between. Because we try to automate as much as possible, we could then convert the postman scripts to be able to run with newman and attach those tests to the Jenkins environment.
+
+The last couple of weeks (since about the start of May 2018) we are implementing more and more tests into RestAssured in Java (because the code base is already written in Java). The advantage of the automation, is the fact that the repeatability is that high and the tests are ran with every 'mvn verify' or every commit in Jenkins.

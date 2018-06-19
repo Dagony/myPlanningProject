@@ -1,0 +1,105 @@
+:Author: Mark de Wit <mark.dewit@xillio.com>
+:Version: v1.0, 2018-06-06
+:toc: left
+
+Planning documents for Mark de Wit for 01-06-2018/31-12-2018
+============================================================
+{Author}
+{Version}
+
+*Introduction*
+
+In short, the goals for coming half year will be:
+
+. Making the overall proportions between functional testing and automatic testing known and available for everybody that is interested
+. Improve the proportion of the automatic testing. 80% of all the tests performed before closing an issue in Xillio will be automatic tested
+. Having performance testing running on nightly basis
+. Monitoring the nightly running performance testing to make sure the performance of our main applications is stable or improves over time.
+
+=== Proportions between functional and automatic testing at Xillio
+
+To measure how much of the testing is done manually/automatically (the MA ratio footnoteref:[MA, Manual / Automatic testing ratio expressed in percentage.]) is used. To determine the MA ratio, keep in mind that not only the actual number of tests are effecting the ratio, but also the amount of time spent on preparing/researching, performing, documenting the tests. Once a test is done, the repeatability is also a big factor in the calculation.
+
+The MTT footnoteref:[MTT, Manual testing time.] is calculated by the number of tests divided by the time spent on researching the test subject at hand in hours.
+
+
+divided by the ATT footnoteref:[ATT, Automatic testing time.]
+
+[cols="10%,45%,45%",options="header"]
+|===============
+|Abbreviation|Calculation|Explanation
+|RF|To Be Determined|Repeatability factor is a fraction to be taking in account to determine the wait of the kind of tests.
+|MTT|(preparation + performing + documenting) * RF|Adding up the time (in hours) it takes to prepare, perform and document the tests manually and multiplying that number with a repeatability factor.
+|ATT|(preparation + performing + documenting) * RF | Adding up the time (in hours) it takes to prepare, perform and document the tests automatically and multiplying that number with a repeatability factor.
+|MA|latexmath:[\frac{ MTT}{ ATT }]|The MTT footnoteref:[MTT] score divided by the ATT footnoteref:[ATT] score in percentages
+|===============
+
+==== Repeatability factor
+
+Initial thought about the Repeatability Factor. If the (simplest) test case is:
+
+List all entities in the root a Xillio Engine configuration.
+
+. Generate token
+. Perform GET /v2/configurations
+. Pick a configurationId from the first configuration
+. List all entities from the root of that configuration
+
+Let's say, to properly check the repeatability factor, we will perform the test in both manual and automatic way for 5 times.
+
+If these steps are to be performed in Postman by hand (manual testing), than it means every step has to be ran by selecting the step in Postman, hit the 'Send' button and visually check that the Postman tests were successful. Let's say that every call in Postman takes about:
+
+. Generate token: First, click the collection name > 'edit' option > 'Authorization' > 'Get New Access Token' > 'Request Token' > Scroll down > 'Use Token' > 'Update'
+. Perform GET /v2/configurations (which sets a Postman variable to keep the configuration id at hand)
+. Perform GET /v2/entities/{configurationId}
+
+//
+//latexmath:[$C = \alpha + \beta Y^{\gamma} + \epsilon$]
+//
+//latexmath:[$\sum_{n=1}^\infty \frac{1}{2^n}$]
+//
+//latexmath:[MA = \frac{ MTT * repeatability}{ ATT }]
+
+
+Time spent on manual testing in hours
+
+WARNING: TODO: determine over which period these calculations need te be
+
+latexmath:[MTT (hours) = (preparation (hours) + performing (hours) + documenting (hours))]
+
+Time spent on automatic testing in hours
+
+latexmath:[ATT (hours) = (preparation (hours) + performing (hours) + documenting (hours))]
+
+==== Determine best way to share finding of the MA
+
+
+
+
+=== How to improve the proportions between manual and automatic testing at Xillio
+
+=== Set up performance tests
+
+=== Alarm people when the performance testing shows performance drop
+
+== Actual time table
+
+[cols="25%,25%,10%,10%,10%",options="header"]
+|========================
+|Main goal|Sub goal|Time needed|When started|When finished
+|Making MA available for everybody||||
+||Interview everybody involved in testing about how much time they spent on both manual and automatic testing|3 days => 2.25 weeks|2018-06-06|2018-07-06
+||Determine how to calculate MA|3 days => 2.25 weeks|2018-06-06|2018-06-13
+||Perform tests manually and automatically and keep track of time spent to check repeatability factor|5 days => 3.75 weeks|2018-06-13|2018-06-20
+||React app (??????) showing the actual Repeatability factor|1 day => 2 weeks|2018-06-20|2018-06-21
+|Improve the MA. 80% of all the tests performed before merging a branch in Xillio will be automatic tested||||
+||Inventorize all kind of tests that need manual testing|1/2 day => 1 week|2018-06-21|2018-06-22
+||Determine all kind of tests that can be automatically tested|1/2 day => 1 week|2018-06-22|2018-06-23
+|Having performance testing running on a nightly basis||||
+||Create a simple performance test in JMeter for Xillio Engine|2 days => 1.5 week|2018-07-23|2018-07-30
+||Run the JMeter performance test in Jenkins + repeat the test every night|1 day => 0.75 week|2018-07-30|2018-07-31
+||Push result of JMeter performance test to React app (???????)|2 days => 1.5 week|2018-08-01|2018-08-03
+|Total number of days needed||17 days|
+|========================
+
+If these calculations are correct, it will take 17 full days of work. Each week I plan to spend 3/4 day, so it would take me 22 latexmath:[\frac{2}{3}] weeks. From today (2018-06-06) I have planned to be away from work at least 3 weeks. So that leaves (total # weeks per year) 52 - (expected # weeks work) 22 - (# weeks holidays) 3 = 27 weeks. That would leave me about (total # weeks per year) 52 - (current week) 23 - (# weeks work) 27 = 2 weeks of planning movement.
