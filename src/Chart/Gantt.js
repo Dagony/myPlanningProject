@@ -132,6 +132,7 @@ export default class Gantt extends Component {
 
                 tip.style.left = pos.x - 160 + "px";
                 tip.style.top  = pos.y + "px";
+                tip.style.zIndex = 999;
             };
 
         })();
@@ -170,7 +171,16 @@ export default class Gantt extends Component {
         });
 
         gantt.init(this.ganttContainer);
-        gantt.parse(this.props.tasks);
+
+        gantt.load("/data");
+        let dp = new gantt.dataProcessor("/data");
+        dp.init(gantt);
+        dp.setTransactionMode("REST");
+
+
+        //
+        //
+        // gantt.parse(tasks);
     }
 
     render() {

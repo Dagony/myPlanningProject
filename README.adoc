@@ -103,3 +103,10 @@ latexmath:[ATT (hours) = (preparation (hours) + performing (hours) + documenting
 |========================
 
 If these calculations are correct, it will take 17 full days of work. Each week I plan to spend 3/4 day, so it would take me 22 latexmath:[\frac{2}{3}] weeks. From today (2018-06-06) I have planned to be away from work at least 3 weeks. So that leaves (total # weeks per year) 52 - (expected # weeks work) 22 - (# weeks holidays) 3 = 27 weeks. That would leave me about (total # weeks per year) 52 - (current week) 23 - (# weeks work) 27 = 2 weeks of planning movement.
+
+For a visual representation of my planning, check out the REACT app that I created containing a nice GANTT chart. To start it up, run:
+
+. docker-compose up
+. npx yarn start:dev
+
+The docker command will spin up two docker images. The first is a mysql server and the other one is phpmyadmin for administrating the databases

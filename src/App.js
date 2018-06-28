@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Gantt from './Chart/Gantt';
 import Toolbar from './Chart/Toolbar';
 import MessageArea from './Chart/MessageArea';
-import getJsonData from './generateInputJson';
+// import getJsonData from './generateInputJson';
 import './App.css';
 /*
 Following: https://dhtmlx.com/blog/create-react-gantt-chart-component-dhtmlxgantt/
@@ -16,7 +16,7 @@ class App extends Component {
             messages: []
         };
 
-        this.data = getJsonData();
+        // this.data = getJsonData();
         this.handleZoomChange = this.handleZoomChange.bind(this);
         this.logTaskUpdate = this.logTaskUpdate.bind(this);
         this.logLinkUpdate = this.logLinkUpdate.bind(this);

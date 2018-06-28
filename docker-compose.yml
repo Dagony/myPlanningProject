@@ -1,0 +1,23 @@
+version: '3.1'
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=0000
+      - MYSQL_USER=mark
+      - MYSQL_PASSWORD=mark
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+
+  myadmin:
+     image: phpmyadmin/phpmyadmin
+     restart: always
+     ports:
+       - 8080:80
+     expose:
+       - 8080
+     links:
+       - mysql:db
