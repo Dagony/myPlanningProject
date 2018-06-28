@@ -32,9 +32,6 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "dhtmlx-gantt": "^5.1.0",
-    "mongodb": "^3.0.10",
-    "mongoose": "^5.1.6",
-    "mongoose-double": "0.0.1",
     "nodemon": "^1.17.2",
     "react-hot-loader": "^4.0.0",
     "react-router": "^4.2.0",

@@ -18,8 +18,8 @@ db.connect();
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({extended: true}));
 
+// Collect the data for the GANTT chart
 app.get("/data", function (req, res) {
-    console.log('endpoint reached');
     db.query("SELECT * FROM gantt_tasks", function (err, rows) {
         if (err) console.log(err);
         console.log(rows[0]);
@@ -40,6 +40,8 @@ app.listen(port, function () {
     console.log("Server is running on port " + port + "...");
 });
 
+
+// To make sure the database is filled the correct way, call http://localhost:1337/fillDatabase
 app.get("/fillDatabase", function (req, res) {
     console.log("/fillDatabase called");
 
