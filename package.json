@@ -19,7 +19,7 @@
     "whatwg-fetch": "^2.0.4",
     "yarn": "^1.7.0"
   },
-  "proxy" : "http://localhost:1337",
+  "proxy": "http://localhost:1337",
   "scripts": {
     "start:server": "cd server && nodemon server.js --debug",
     "start:client": "cd src && yarn start",
@@ -36,6 +36,7 @@
     "react-hot-loader": "^4.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0",
     "webpack": "^4.12.1"
   }
 }

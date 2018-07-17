@@ -1,0 +1,72 @@
+Arguments: 
+  /usr/bin/node /home/dagony/projects/myPlanningProject/node_modules/.bin/yarn start:dev
+
+PATH: 
+  /home/dagony/projects/myPlanningProject/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  10.5.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/dagony/projects/myPlanningProject/package.json: Unexpected token / in JSON at position 1047
+      at JSON.parse (<anonymous>)
+      at /home/dagony/projects/myPlanningProject/node_modules/yarn/lib/cli.js:1130:59
+      at Generator.next (<anonymous>)
+      at step (/home/dagony/projects/myPlanningProject/node_modules/yarn/lib/cli.js:98:30)
+      at /home/dagony/projects/myPlanningProject/node_modules/yarn/lib/cli.js:109:13
+
+npm manifest: 
+  {
+    "name": "gantt-mark",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "react": "^16.4.0",
+      "react-dom": "^16.4.0",
+      "react-scripts": "1.1.4",
+      "yarn": "^1.7.0",
+      "prop-types": "^15.6.2",
+      "react-markdown": "^3.3.4",
+      "whatwg-fetch": "^2.0.4"
+    },
+    "scripts": {
+      "start:server": "cd server && nodemon server.js --exec babel-node --presets es2015,stage-0",
+      "start:client": "cd src && yarn start",
+      "start:dev": "concurrently \"yarn start:server\" \"yarn start:client\"",
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test --env=jsdom",
+      "eject": "react-scripts eject"
+    },
+    "proxy": "http://localhost:3000",
+    "devDependencies": {
+      "@babel/core": "^7.0.0-beta.42",
+      "@babel/preset-env": "^7.0.0-beta.42",
+      "@babel/preset-react": "^7.0.0-beta.42",
+      "axios": "^0.18.0",
+      "cors": "^2.8.4",
+      "dhtmlx-gantt": "^5.1.0",
+      "mongodb": "^3.0.10",
+      "mongoose": "^5.1.6",
+      "mongoose-double": "0.0.1",
+      "nodemon": "^1.17.2",
+  //    "react": "^16.2.0",
+  //    "react-dom": "^16.2.0",
+      "react-hot-loader": "^4.0.0",
+      "react-router": "^4.2.0",
+      "react-router-dom": "^4.2.2",
+      "webpack": "^4.12.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
