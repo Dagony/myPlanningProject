@@ -130,9 +130,9 @@ export default class Gantt extends Component {
                     if((mouse_pos.y+height) > (max_height + scroll.y)) pos.y = mouse_pos.y - (height - 40) - (gantt.config.tooltip_offset_y*1 || 0);
                 }
 
-                tip.style.left = pos.x - 160 + "px";
+                tip.style.left = pos.x + "px";
                 tip.style.top  = pos.y + "px";
-                tip.style.zIndex = 999;
+                // tip.style.zIndex = 999;
             };
 
         })();
@@ -142,16 +142,7 @@ export default class Gantt extends Component {
             return "<span style='text-align: left'> " + formatProgress(task.progress) + " </span>" + task.text;
         };
 
-        // Define the look of the tooltip hovering over tasks
-        gantt.templates.tooltip_text = function(start, end, task) {
-            let textDetail = task.text_detail ? task.text_detail : '';
-            return "<b>Task: </b>" + task.text + "<br />" +
-                "<b>Duration: </b>" + task.duration + " days<br/>" +
-                "<b>Progress: </b>" + formatProgress(task.progress) + " <br/>" +
-                "<b>Start date: </b>" + task.start_date.toLocaleDateString('nl-NL', { timeZone: 'GMT'}) + "<br />" +
-                "<b>End date: </b>" + task.end_date.toLocaleDateString('nl-NL', { timeZone: 'GMT'}) + "<br />" +
-                textDetail;
-        };
+
 
         gantt.config.columns = [
             {name:"text",       label:"Task name",  tree: true, width: 300, resize: true },
@@ -171,6 +162,17 @@ export default class Gantt extends Component {
         });
 
         gantt.init(this.ganttContainer);
+
+        // Define the look of the tooltip hovering over tasks
+        gantt.templates.tooltip_text = function(start, end, task) {
+            let textDetail = task.text_detail ? task.text_detail : '';
+            return "<b>Task: </b>" + task.text + "<br />" +
+                "<b>Duration: </b>" + task.duration + " days<br/>" +
+                "<b>Progress: </b>" + formatProgress(task.progress) + " <br/>" +
+                "<b>Start date: </b>" + task.start_date.toLocaleDateString('nl-NL', { timeZone: 'GMT'}) + "<br />" +
+                "<b>End date: </b>" + task.end_date.toLocaleDateString('nl-NL', { timeZone: 'GMT'}) + "<br />" +
+                textDetail;
+        };
 
         gantt.load("/data");
         let dp = new gantt.dataProcessor("/data");
