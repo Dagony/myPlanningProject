@@ -11,6 +11,8 @@ services:
       - 3306:3306
     expose:
       - 3306
+    volumes:
+      - my-datavolume:/var/lib/mysql
 
   myadmin:
      image: phpmyadmin/phpmyadmin
@@ -21,3 +23,5 @@ services:
        - 8080
      links:
        - mysql:db
+volumes:
+  my-datavolume:
