@@ -3,6 +3,7 @@ import './App.css';
 import MA from "./MA";
 import Home from './Home';
 import Nav from './Header/Nav';
+import TaskEntries from './TaskEntries';
 
 let ReactRouter = require('react-router-dom');
 let Router = ReactRouter.BrowserRouter;
@@ -70,6 +71,7 @@ class App extends Component {
                     <Switch>
                         <Route exact path={'/'} component={Home}/>
                         <Route exact path={'/MA'} component={MA}/>
+                        <Route exact path={'/TaskEntries'} component={TaskEntries}/>
                         <Route render={function () {
                             return <p>Not Found</p>
                         }} />

@@ -44,6 +44,14 @@ app.get('/stats', function (req, res) {
     });
 });
 
+app.get('/taskentries', function (req, res) {
+    db.query("SELECT * FROM all_test_tasks", function(err, rows) {
+        if (err) console.log(err);
+
+        res.send({data: rows});
+    })
+});
+
 app.listen(port, function () {
     console.log("Server is running on port " + port + "...");
 });

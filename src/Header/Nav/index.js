@@ -12,6 +12,9 @@ function Nav() {
             <li>
                 <NavLink exact activeClassName={'active'} to={'/MA'}>MA</NavLink>
             </li>
+            <li>
+                <NavLink exact activeClassName={'active'} to={'/TaskEntries'}>TaskEntries</NavLink>
+            </li>
         </ul>
     )
 }
