@@ -97,6 +97,11 @@ export default class Gantt extends Component {
 
     componentDidMount() {
         this.initGanttEvents();
+        gantt.load("/data");
+        let dp = new gantt.dataProcessor("/data");
+        dp.init(gantt);
+        dp.setTransactionMode("REST");
+
         (function(){
 
             gantt._show_tooltip = function(text, pos) {
@@ -177,12 +182,9 @@ export default class Gantt extends Component {
                 textDetail;
         };
 
-        gantt.load("/data");
-        let dp = new gantt.dataProcessor("/data");
-        dp.init(gantt);
-        dp.setTransactionMode("REST");
 
 
+        dp.destructor();
         //
         //
         // gantt.parse(tasks);
