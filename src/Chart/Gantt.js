@@ -86,10 +86,13 @@ export default class Gantt extends Component {
         });
 
         gantt.attachEvent('onAfterLinkDelete', (id, link) => {
+            alert("You've just clicked an item with id=" + id);
             if(this.props.onLinkUpdated) {
                 this.props.onLinkUpdated(id, 'deleted');
             }
         });
+
+
     }
 
     componentDidMount() {

@@ -1,15 +1,13 @@
-import React, {Component} from 'react';
-import Gantt from './Chart/Gantt';
-import Toolbar from './Chart/Toolbar';
-import MessageArea from './Chart/MessageArea';
-import './App.css';
-import MA from "./MA";
+import React, {Component} from "react";
+import Toolbar from "../Chart/Toolbar";
+import Gantt from "../Chart/Gantt";
+import MessageArea from "../Chart/MessageArea";
 
-/*
-Following: https://dhtmlx.com/blog/create-react-gantt-chart-component-dhtmlxgantt/
-*/
+// import Gantt from './Chart/Gantt';
+// import Toolbar from './Chart/Toolbar';
+// import MessageArea from './Chart/MessageArea';
 
-class App extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,17 +23,17 @@ class App extends Component {
 
     addMessage(message) {
         let messages = this.state.messages.slice();
-        let prevKey = messages.length ? messages[0].key : 0;
+        let prevKey = messages.length ? messages[0].key: 0;
 
         messages.unshift({key: prevKey + 1, message});
-        if (messages.length > 40) {
+        if(messages.length > 40){
             messages.pop();
         }
         this.setState({messages});
     }
 
     logTaskUpdate(id, mode, task) {
-        let text = task && task.text ? ` (${task.text})` : '';
+        let text = task && task.text ? ` (${task.text})`: '';
         let message = `Task ${mode}: ${id} ${text}`;
         this.addMessage(message);
     }
@@ -58,11 +56,7 @@ class App extends Component {
         return (
             <div>
                 <h1>Data first, then decide + actions!!!</h1>
-                <MA
-                    ma-factor={"0.8"}
-                    num-man-tests={"20"}
-                    num-auto-tests={"80"}
-                />
+
                 <Toolbar
                     zoom={this.state.currentZoom}
                     onZoomChange={this.handleZoomChange}
@@ -82,5 +76,4 @@ class App extends Component {
         );
     }
 }
-
-export default App;
+export default Home;
