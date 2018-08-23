@@ -22,7 +22,7 @@ If this terms do not scare you off, we will consider letting you join Gatekeeper
 
 == Welcome to Gatekeeper!
 
-Let's sum up the requirements for working at the Gatekeeper team.
+
 
 === Hardware
 
