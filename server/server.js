@@ -36,6 +36,14 @@ app.get("/data", function (req, res) {
     })
 });
 
+app.get('/stats', function (req, res) {
+    db.query("SELECT * FROM test_stats", function(err, rows) {
+        if (err) console.log(err);
+
+        res.send({data: rows[0]});
+    });
+});
+
 app.listen(port, function () {
     console.log("Server is running on port " + port + "...");
 });

@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
-import Gantt from './Chart/Gantt';
-import Toolbar from './Chart/Toolbar';
-import MessageArea from './Chart/MessageArea';
 import './App.css';
 import MA from "./MA";
+import Home from './Home';
+import Nav from './Header/Nav';
+
+let ReactRouter = require('react-router-dom');
+let Router = ReactRouter.BrowserRouter;
+let Route = ReactRouter.Route;
+let Switch = ReactRouter.Switch;
+// let Nav  = require('./Header/Nav');
+// let Gantt  = require('./Chart/Gantt');
+// let Home  = require('./Home');
 
 /*
 Following: https://dhtmlx.com/blog/create-react-gantt-chart-component-dhtmlxgantt/
@@ -56,29 +63,19 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Data first, then decide + actions!!!</h1>
-                <MA
-                    ma-factor={"0.8"}
-                    num-man-tests={"20"}
-                    num-auto-tests={"80"}
-                />
-                <Toolbar
-                    zoom={this.state.currentZoom}
-                    onZoomChange={this.handleZoomChange}
-                />
-                <div className="gantt-container">
-                    <Gantt
-                        tasks={this.data}
-                        zoom={this.state.currentZoom}
-                        onTaskUpdated={this.logTaskUpdate}
-                        onLinkUpdated={this.logLinkUpdate}
-                    />
+
+            <Router>
+                <div>
+                    <Nav />
+                    <Switch>
+                        <Route exact path={'/'} component={Home}/>
+                        <Route exact path={'/MA'} component={MA}/>
+                        <Route render={function () {
+                            return <p>Not Found</p>
+                        }} />
+                    </Switch>
                 </div>
-                <MessageArea
-                    messages={this.state.messages}
-                />
-            </div>
+            </Router>
         );
     }
 }
