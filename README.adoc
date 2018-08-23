@@ -31,7 +31,7 @@ divided by the ATT footnoteref:[ATT, Automatic testing time.]
 |RF|To Be Determined|Repeatability factor is a fraction to be taking in account to determine the wait of the kind of tests.
 |MTT|(preparation + performing + documenting) * RF|Adding up the time (in hours) it takes to prepare, perform and document the tests manually and multiplying that number with a repeatability factor.
 |ATT|(preparation + performing + documenting) * RF | Adding up the time (in hours) it takes to prepare, perform and document the tests automatically and multiplying that number with a repeatability factor.
-|MA|latexmath:[\frac{ MTT}{ ATT }]|The MTT footnoteref:[MTT] score divided by the ATT footnoteref:[ATT] score in percentages
+|MA|latexmath:[\frac{MTT}{ATT}]|The MTT footnoteref:[MTT] score divided by the ATT footnoteref:[ATT] score in percentages
 |===============
 
 ==== Repeatability factor
@@ -63,16 +63,24 @@ If these steps are to be performed in Postman by hand (manual testing), than it 
 
 Time spent on manual testing in hours
 
-WARNING: TODO: determine over which period these calculations need te be
+NOTE: TODO: determine over which period these calculations need to be made
 
-latexmath:[MTT (hours) = (preparation (hours) + performing (hours) + documenting (hours))]
+:imagesdir: ./docs/images
+image:MTT.gif[]
+
+//latexmath:[MTT (hours) = (preparation (hours) + performing (hours) + documenting (hours))]
 
 Time spent on automatic testing in hours
 
-latexmath:[ATT (hours) = (preparation (hours) + performing (hours) + documenting (hours))]
+image:ATT.gif[]
+//latexmath:[ATT (hours) = (preparation (hours) + performing (hours) + documenting (hours))]
+
+
+image:MA.gif[]
 
 ==== Determine best way to share finding of the MA
 
+Xillio's QA people will keep updating the spreadsheet files with information, so that we can recalculate the MA factor over and over again. The factor will be shared through the React App that is part this project.
 
 
 
