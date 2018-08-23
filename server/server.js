@@ -12,6 +12,8 @@ let db = mysql.createConnection({
     password: '0000',
     database: 'gantt'
 });
+let jsonParser = bodyParser.raw();
+var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 db.connect();
 
@@ -50,6 +52,17 @@ app.get('/taskentries', function (req, res) {
 
         res.send({data: rows});
     })
+});
+
+app.post('/taskentries', jsonParser, function(req, res) {
+    console.log(req);
+    if (!req.body) return res.sendStatus(400);
+
+    // console.log(req.body);
+    // res.send({data: "mark"});
+    res.setHeader('Content-Type', 'text/plain');
+    res.write('you posted:\n');
+    res.end(JSON.stringify(req.body, null, 2));
 });
 
 app.listen(port, function () {

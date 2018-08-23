@@ -31,7 +31,9 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "body-parser": "^1.18.3",
     "dhtmlx-gantt": "^5.1.0",
+    "mysql2": "^1.6.1",
     "nodemon": "^1.17.2",
     "react-hot-loader": "^4.0.0",
     "react-router": "^4.2.0",

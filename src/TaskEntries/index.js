@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import './TaskEntries.css';
 
 class TaskEntries extends Component {
 
@@ -36,47 +37,47 @@ class TaskEntries extends Component {
     render() {
 
 
-        return <div>
-            <section id={"top-stats"} >
+        return(
+        <div>
+            <div className={"table-title"}>
+                <a href="/TaskEntries/Create">Create</a>
+            </div>
 
-                <table>
-                    <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>QA-er</th>
-                        <th>Project</th>
-                        <th>issue-nr</th>
-                        <th>issue-pr</th>
-                        <th>issue-link</th>
-                        <th>man-time</th>
-                        <th>auto-time</th>
-                        <th>started</th>
-                        <th>ended</th>
+            <table className={"table-fill"}>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>QA-er</th>
+                    <th>Project</th>
+                    <th>issue-nr</th>
+                    <th>issue-pr</th>
+                    <th>issue-link</th>
+                    <th>man-time</th>
+                    <th>auto-time</th>
+                    <th>started</th>
+                    <th>ended</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {this.state.taskentries.map((item, i) => (
+                    <tr key={item.i}>
+                        <td>{item.id}</td>
+                        <td>{item["qa-er"]}</td>
+                        <td>{item["project"]}</td>
+                        <td>{item["issue-nr"]}</td>
+                        <td>{item["issue-pr"]}</td>
+                        <td>{item["issue-link"]}</td>
+                        <td>{item["man-time"]}</td>
+                        <td>{item["auto-time"]}</td>
+                        <td>{item["started"]}</td>
+                        <td>{item["ended"]}</td>
+
                     </tr>
-                    </thead>
-                    <tbody>
-
-                    {this.state.taskentries.map((item, i) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item["qa-er"]}</td>
-                            <td>{item["project"]}</td>
-                            <td>{item["issue-nr"]}</td>
-                            <td>{item["issue-pr"]}</td>
-                            <td>{item["issue-link"]}</td>
-                            <td>{item["man-time"]}</td>
-                            <td>{item["auto-time"]}</td>
-                            <td>{item["started"]}</td>
-                            <td>{item["ended"]}</td>
-
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-
-            </section>
-
-        </div>;
+                ))}
+                </tbody>
+            </table>
+        </div>);
     }
 }
 
