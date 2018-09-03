@@ -36,6 +36,7 @@
     "mysql2": "^1.6.1",
     "nodemon": "^1.17.2",
     "react-hot-loader": "^4.0.0",
+    "react-icons": "^3.0.5",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^4.0.0",

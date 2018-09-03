@@ -5,6 +5,7 @@ import Home from './Home';
 import Nav from './Header/Nav';
 import TaskEntries from './TaskEntries';
 import TaskEntriesCreate from './TaskEntries/Create';
+import TaskEntriesEdit from "./TaskEntries/Edit";
 
 let ReactRouter = require('react-router-dom');
 let Router = ReactRouter.BrowserRouter;
@@ -74,6 +75,7 @@ class App extends Component {
                         <Route exact path={'/MA'} component={MA}/>
                         <Route exact path={'/TaskEntries'} component={TaskEntries}/>
                         <Route exact path={'/TaskEntries/Create'} component={TaskEntriesCreate}/>
+                        <Route exact path={'/TaskEntries/Edit/:id'} component={TaskEntriesEdit}/>
                         <Route render={function () {
                             return <p>Not Found</p>
                         }} />

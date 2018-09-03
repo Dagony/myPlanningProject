@@ -56,22 +56,16 @@ app.get('/taskentries', function (req, res) {
     })
 });
 
+app.get('/taskentries/:id', function(req, res) {
+    db.query("SELECT * FROM all_test_tasks WHERE id="+req.params.id+";", function(err, row) {
+        if (err) console.log(err);
+
+        res.send(row);
+    });
+});
+
 app.post('/taskentries', jsonParser, function(req, res) {
 
-    // var jsondata = req.body;
-    // var values = [req.project, jsondata["qa-er"]];
-
-    // for(var i=0; i< jsondata.length; i++)
-    //     values.push([jsondata[i].project,jsondata[i]["qa-er"]]);
-
-    // console.log('\nJson data Stringified: ' + JSON.stringify(jsondata));
-    // console.log('\nJson data: ' + JSON.stringify(jsondata));
-    // console.log(JSON.stringify(req.body));
-    // console.log(req.body.issue.nr);
-    // console.log('\nValues:' + values);
-    // let values = [req.body.project, req.body.qa, parseInt(req.body.issue.nr)];
-    //
-    // //Bulk insert using nested array [ [a,b],[c,d] ] will be flattened to (a,b),(c,d)
     let obj = [
         req.body.qa,
         req.body.project,
@@ -94,12 +88,40 @@ app.post('/taskentries', jsonParser, function(req, res) {
         }
         else {
             console.log(result);
+            res.send(result);
+            // console.log(result);
             // console.log(fields);
         }
 
     });
     // res.send('Success');
     res.redirect('..');
+});
+
+app.put('/taskentries/:id', jsonParser, function(req, res) {
+    let obj = [
+        req.body.qa,
+        req.body.project,
+        req.body.issue.nr,
+        req.body.issue.pr,
+        req.body.issue.link,
+        parseFloat(req.body.time.auto,2),
+        parseFloat(req.body.time.man, 2),
+        req.body.started,
+        req.body.ended,
+        req.body.id
+    ];
+
+    console.log(obj);
+
+    db.query("UPDATE all_test_tasks SET qa = ?, project = ? , issuenr = ?, issuepr = ?, issuelink = ?, autotime = ?, mantime = ?, started = ?, ended = ? WHERE id = ?", obj, function(err, result, fields) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result);
+            res.send(result);
+        }
+    });
 });
 
 app.listen(port, function () {
