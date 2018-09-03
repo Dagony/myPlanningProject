@@ -79,12 +79,14 @@ app.post('/taskentries', jsonParser, function(req, res) {
         req.body.issue.pr,
         req.body.issue.link,
         parseFloat(req.body.time.auto,2),
-        parseFloat(req.body.time.man, 2)
+        parseFloat(req.body.time.man, 2),
+        req.body.started,
+        req.body.ended
     ];
     // console.log(JSON.stringify(obj));
 
 
-    db.query("INSERT INTO all_test_tasks(qa,project,issuenr,issuepr,issuelink,autotime,mantime) VALUES (?,?,?,?,?,?,?)", obj, function(err,result, fields) {
+    db.query("INSERT INTO all_test_tasks(qa,project,issuenr,issuepr,issuelink,autotime,mantime,started, ended) VALUES (?,?,?,?,?,?,?,?,?)", obj, function(err,result, fields) {
         // console.log(result);
         if(err) {
             // res.send(err);
@@ -92,10 +94,12 @@ app.post('/taskentries', jsonParser, function(req, res) {
         }
         else {
             console.log(result);
-            console.log(fields);
-            res.send('Success');
+            // console.log(fields);
         }
+
     });
+    // res.send('Success');
+    res.redirect('..');
 });
 
 app.listen(port, function () {

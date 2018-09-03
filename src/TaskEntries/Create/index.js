@@ -43,7 +43,9 @@ class TaskEntriesCreate extends Component {
             time: {
                 man: this.state["man-time"],
                 auto: this.state["auto-time"]
-            }
+            },
+            started: this.state["started"],
+            ended: this.state["ended"]
         };
 
 
@@ -60,6 +62,7 @@ class TaskEntriesCreate extends Component {
                 'Content-Type' : 'application/json'
             }
         });
+
     }
 
 
@@ -104,6 +107,16 @@ class TaskEntriesCreate extends Component {
                     <label>
                         Automated time in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleInputChange} name={"auto-time"} />
+                    </label>
+
+                    <label>
+                        Started
+                        <input type={"datetime-local"} onChange={this.handleInputChange} name={"started"} />
+                    </label>
+
+                    <label>
+                        Ended
+                        <input type={"datetime-local"} onChange={this.handleInputChange} name={"ended"} />
                     </label>
 
                     <input type="submit" value="Submit" />

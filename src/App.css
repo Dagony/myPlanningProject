@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+    overflow-scrolling: auto;
 }
 
 .App-logo {
@@ -32,7 +33,7 @@ html, body {
   margin: 0px;
   padding: 0px;
   height: 100%;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .zoom-bar {
