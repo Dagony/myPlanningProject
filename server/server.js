@@ -12,13 +12,15 @@ let db = mysql.createConnection({
     password: '0000',
     database: 'gantt'
 });
-let jsonParser = bodyParser.raw();
-var urlencodedParser = bodyParser.urlencoded({extended: false});
+
+var jsonParser = bodyParser.json();
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 db.connect();
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(bodyParser.urlencoded({extended: true}));
 
 // Collect the data for the GANTT chart
 app.get("/data", function (req, res) {
@@ -55,14 +57,45 @@ app.get('/taskentries', function (req, res) {
 });
 
 app.post('/taskentries', jsonParser, function(req, res) {
-    console.log(req);
-    if (!req.body) return res.sendStatus(400);
 
-    // console.log(req.body);
-    // res.send({data: "mark"});
-    res.setHeader('Content-Type', 'text/plain');
-    res.write('you posted:\n');
-    res.end(JSON.stringify(req.body, null, 2));
+    // var jsondata = req.body;
+    // var values = [req.project, jsondata["qa-er"]];
+
+    // for(var i=0; i< jsondata.length; i++)
+    //     values.push([jsondata[i].project,jsondata[i]["qa-er"]]);
+
+    // console.log('\nJson data Stringified: ' + JSON.stringify(jsondata));
+    // console.log('\nJson data: ' + JSON.stringify(jsondata));
+    // console.log(JSON.stringify(req.body));
+    // console.log(req.body.issue.nr);
+    // console.log('\nValues:' + values);
+    // let values = [req.body.project, req.body.qa, parseInt(req.body.issue.nr)];
+    //
+    // //Bulk insert using nested array [ [a,b],[c,d] ] will be flattened to (a,b),(c,d)
+    let obj = [
+        req.body.qa,
+        req.body.project,
+        req.body.issue.nr,
+        req.body.issue.pr,
+        req.body.issue.link,
+        parseFloat(req.body.time.auto,2),
+        parseFloat(req.body.time.man, 2)
+    ];
+    // console.log(JSON.stringify(obj));
+
+
+    db.query("INSERT INTO all_test_tasks(qa,project,issuenr,issuepr,issuelink,autotime,mantime) VALUES (?,?,?,?,?,?,?)", obj, function(err,result, fields) {
+        // console.log(result);
+        if(err) {
+            // res.send(err);
+            console.log(err);
+        }
+        else {
+            console.log(result);
+            console.log(fields);
+            res.send('Success');
+        }
+    });
 });
 
 app.listen(port, function () {

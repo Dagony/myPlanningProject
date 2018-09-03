@@ -4,26 +4,61 @@ class TaskEntriesCreate extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {value: 'coconut'};
+        this.state = {
+            qa: 'Pauli',
+            issue: {
+                nr: 0,
+                pr: 0,
+                link: 'http://'
+            },
+            time: {
+                man: 0.00,
+                auto: 0.00
+            }
+        };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name] : value
+        });
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         let formData = {
-            qa: React.findDOMNode(this.)
+            qa: this.state.qa,
+            project: this.state.project,
+            issue: {
+                nr: this.state["issue-nr"],
+                pr: this.state["issue-pr"],
+                link: this.state["issue-link"]
+            },
+            time: {
+                man: this.state["man-time"],
+                auto: this.state["auto-time"]
+            }
         };
 
 
 
+        // console.log(this.state);
+        let freedom = JSON.stringify(formData);
+        alert(freedom);
+
+        event.preventDefault();
         fetch('/taskentries', {
             method: 'POST',
-            body: data
+            body: freedom
+            ,headers: {
+                'Content-Type' : 'application/json'
+            }
         });
     }
 
@@ -32,46 +67,44 @@ class TaskEntriesCreate extends Component {
         return (
             <div className={"centered"}>
                 Create task entry:<br/>
-                <form onSubmit={(e) => {this.handleSubmit(e);}}>
+                <form onSubmit={this.handleSubmit}>
                     <label>
                         QA-er
-                        <select name={"qa"} onChange={this.handleChange}>
-                            <option value="mark">Mark</option>
-                            <option value="pauli">Pauli</option>
+                        <select name={"qa"} value={this.state.qa} onChange={this.handleInputChange}>
+                            <option key={'mark'} value="mark">Mark</option>
+                            <option key={'pauli'} value="pauli">Pauli</option>
                         </select>
                     </label>
 
                     <label>
                         Project
-                        <input type={"text"} name={"project"} />
+                        <input type={"text"} onChange={this.handleInputChange} name={"project"} />
                     </label>
 
                     <label>
                         Issue NR
-                        <input type={"number"} name={"issue-nr"} />
+                        <input type={"number"} onChange={this.handleInputChange} name={"issue-nr"} />
                     </label>
 
                     <label>
                         Issue PR
-                        <input type={"number"} name={"issue-pr"} />
+                        <input type={"number"} onChange={this.handleInputChange} name={"issue-pr"} />
                     </label>
 
                     <label>
                         Issue Link
-                        <input type={"text"} name={"issue-link"} />
+                        <input type={"text"} onChange={this.handleInputChange} name={"issue-link"} />
                     </label>
 
                     <label>
                         Manual time in quarters
-                        <input type={"text"} name={"man-time"} />
+                        <input type={"text"} onChange={this.handleInputChange} name={"man-time"} />
                     </label>
 
                     <label>
                         Automated time in quarters
-                        <input type={"number"} name={"auto-time"} />
+                        <input type={"number"} step={"0.01"} onChange={this.handleInputChange} name={"auto-time"} />
                     </label>
-
-
 
                     <input type="submit" value="Submit" />
                 </form>

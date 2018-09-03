@@ -61,15 +61,15 @@ class TaskEntries extends Component {
                 <tbody>
 
                 {this.state.taskentries.map((item, i) => (
-                    <tr key={item.i}>
+                    <tr key={i}>
                         <td>{item.id}</td>
-                        <td>{item["qa-er"]}</td>
-                        <td>{item["project"]}</td>
-                        <td>{item["issue-nr"]}</td>
-                        <td>{item["issue-pr"]}</td>
-                        <td>{item["issue-link"]}</td>
-                        <td>{item["man-time"]}</td>
-                        <td>{item["auto-time"]}</td>
+                        <td>{item.qa}</td>
+                        <td>{item.project}</td>
+                        <td>{item["issuenr"]}</td>
+                        <td>{item["issuepr"]}</td>
+                        <td>{item["issuelink"]}</td>
+                        <td>{item["mantime"]}</td>
+                        <td>{item["autotime"]}</td>
                         <td>{item["started"]}</td>
                         <td>{item["ended"]}</td>
 
