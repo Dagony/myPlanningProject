@@ -41,30 +41,79 @@ app.get("/data", function (req, res) {
 });
 
 app.get('/stats', function (req, res) {
-    db.query("SELECT * FROM test_stats", function(err, rows) {
-        if (err) console.log(err);
+    let obj = {
+        numManTests: null,
+        numAutoTests: null,
+        timeManTests: null,
+        timeAutoTests: null,
+        MaFactor: null,
+        projects: {}
+    };
 
-        res.send({data: rows[0]});
+
+    db.query("SELECT SUM(mantime) as sumManTime, SUM(autotime) as sumAutoTime FROM all_test_tasks", function (err, results) {
+        obj.timeManTests = 1;
+        if (err) console.log("The Most Bad-Ass Error:\n" + err);
+        else {
+            // console.log("ERR:\n" + err);
+            // console.log("RESULTS:\n" + JSON.stringify(results[0]));
+            // console.log(results[0]);
+            obj.timeManTests = results[0].sumManTime;
+            obj.timeAutoTests = results[0].sumAutoTime;
+        }
+        db.query("SELECT count(project) AS num_projects, project FROM all_test_tasks GROUP BY project ORDER BY num_projects DESC", function (err, rows) {
+            if (err) throw(err);
+            else {
+                // console.log("ROWS:\n" + JSON.stringify(rows));
+                // console.log("ROW 1:\n" + JSON.stringify(rows[0]));
+                // console.log("ROW 1 - project field: " + JSON.stringify(rows[0].project));
+                let len = rows.length;
+                for (let i = 0; i < len; i++) {
+
+                    // console.log(i + "\n" + JSON.stringify(rows[i]) + "\n" + rows[i].project + "\n\n");
+                    // let projects = {
+                    //     rows[i].project: rows[i].num_projects
+                    // };
+                    // obj.projects.push(projects);
+                    obj.projects[rows[i].project] = rows[i].num_projects;
+                }
+
+                db.query("SELECT project, COUNT(project) as cnt FROM `all_test_tasks` WHERE autotime > 0 GROUP BY project", function(err, rows) {
+                    if (err) throw(err);
+                    else {
+                        obj.numAutoTests = rows[0].cnt;
+
+                        db.query("SELECT project, COUNT(project) as cnt FROM `all_test_tasks` WHERE mantime > 0 GROUP BY project", function(err, rows) {
+                            if (err) throw(err);
+                            else {
+                                obj.numManTests = rows[0].cnt;
+                                res.send({data: obj});
+                            }
+                        });
+                    }
+                });
+            }
+        });
     });
 });
 
 app.get('/taskentries', function (req, res) {
-    db.query("SELECT * FROM all_test_tasks", function(err, rows) {
+    db.query("SELECT * FROM all_test_tasks", function (err, rows) {
         if (err) console.log(err);
 
         res.send({data: rows});
     })
 });
 
-app.get('/taskentries/:id', function(req, res) {
-    db.query("SELECT * FROM all_test_tasks WHERE id="+req.params.id+";", function(err, row) {
+app.get('/taskentries/:id', function (req, res) {
+    db.query("SELECT * FROM all_test_tasks WHERE id=" + req.params.id + ";", function (err, row) {
         if (err) console.log(err);
 
         res.send(row);
     });
 });
 
-app.post('/taskentries', jsonParser, function(req, res) {
+app.post('/taskentries', jsonParser, function (req, res) {
 
     let obj = [
         req.body.qa,
@@ -72,7 +121,7 @@ app.post('/taskentries', jsonParser, function(req, res) {
         req.body.issue.nr,
         req.body.issue.pr,
         req.body.issue.link,
-        parseFloat(req.body.time.auto,2),
+        parseFloat(req.body.time.auto, 2),
         parseFloat(req.body.time.man, 2),
         req.body.started,
         req.body.ended
@@ -80,9 +129,9 @@ app.post('/taskentries', jsonParser, function(req, res) {
     // console.log(JSON.stringify(obj));
 
 
-    db.query("INSERT INTO all_test_tasks(qa,project,issuenr,issuepr,issuelink,autotime,mantime,started, ended) VALUES (?,?,?,?,?,?,?,?,?)", obj, function(err,result, fields) {
+    db.query("INSERT INTO all_test_tasks(qa,project,issuenr,issuepr,issuelink,autotime,mantime,started, ended) VALUES (?,?,?,?,?,?,?,?,?)", obj, function (err, result, fields) {
         // console.log(result);
-        if(err) {
+        if (err) {
             // res.send(err);
             console.log(err);
         }
@@ -98,14 +147,14 @@ app.post('/taskentries', jsonParser, function(req, res) {
     res.redirect('..');
 });
 
-app.put('/taskentries/:id', jsonParser, function(req, res) {
+app.put('/taskentries/:id', jsonParser, function (req, res) {
     let obj = [
         req.body.qa,
         req.body.project,
         req.body.issue.nr,
         req.body.issue.pr,
         req.body.issue.link,
-        parseFloat(req.body.time.auto,2),
+        parseFloat(req.body.time.auto, 2),
         parseFloat(req.body.time.man, 2),
         req.body.started,
         req.body.ended,
@@ -114,7 +163,7 @@ app.put('/taskentries/:id', jsonParser, function(req, res) {
 
     console.log(obj);
 
-    db.query("UPDATE all_test_tasks SET qa = ?, project = ? , issuenr = ?, issuepr = ?, issuelink = ?, autotime = ?, mantime = ?, started = ?, ended = ? WHERE id = ?", obj, function(err, result, fields) {
+    db.query("UPDATE all_test_tasks SET qa = ?, project = ? , issuenr = ?, issuepr = ?, issuelink = ?, autotime = ?, mantime = ?, started = ?, ended = ? WHERE id = ?", obj, function (err, result, fields) {
         if (err) {
             console.log(err);
         } else {
@@ -329,13 +378,14 @@ function createFromMysql(mysql_string) {
 function dateDiff(fromdate, todate) {
     let diff = todate - fromdate;
     let divideBy = {
-        w:604800000,
-        d:86400000,
-        h:3600000,
-        n:60000,
-        s:1000 };
+        w: 604800000,
+        d: 86400000,
+        h: 3600000,
+        n: 60000,
+        s: 1000
+    };
 
-    return Math.floor( diff/divideBy['d']);
+    return Math.floor(diff / divideBy['d']);
 }
 
 function calculateOverallProgress(inputTasks) {

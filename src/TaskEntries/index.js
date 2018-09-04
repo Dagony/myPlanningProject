@@ -39,7 +39,7 @@ class TaskEntries extends Component {
         <IconContext.Provider value={{className: "global-class-name"}}>
             .react-icons {
         }
-        </IconContext.Provider>
+        </IconContext.Provider>;
         this.refreshData();
     }
 

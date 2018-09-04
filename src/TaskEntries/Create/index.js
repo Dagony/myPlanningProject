@@ -52,7 +52,6 @@ class TaskEntriesCreate extends Component {
 
         // console.log(this.state);
         let freedom = JSON.stringify(formData);
-        alert(freedom);
 
         event.preventDefault();
         fetch('/taskentries', {

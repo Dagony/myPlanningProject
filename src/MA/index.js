@@ -10,36 +10,30 @@ class MA extends Component {
             myData: null,
             maFactor: 1,
             numManTests: 1,
-            numAutoTests: 1
+            numAutoTests: 1,
+            timeAutoTests: 0,
+            timeManTests: 0
         };
     }
 
-    async getData() {
-        let response = await fetch('/stats');
-        let responseJson = await response.json();
-        return responseJson.data;
-    }
-
-    async refreshData() {
-        let loadedData = await this.getData();
-
-        console.log(loadedData);
-
-        this.setState({
-            numManTests: loadedData.NumManTests,
-            numAutoTests: loadedData.NumAutoTests,
-            maFactor: loadedData.MaFactor
+    getData() {
+        fetch('/stats').then((response) => {
+            return response.json()
+                .then((responseData) => {
+                    this.setState({
+                        timeAutoTests: responseData.data.timeAutoTests,
+                        timeManTests: responseData.data.timeManTests
+                    });
+                    return responseData;
+                });
         });
     }
 
     componentDidMount() {
-        this.refreshData();
+        this.getData();
     }
 
     render() {
-
-
-
         return <div>
             <section id={"top-stats"} className="flex flex-wrap mxn2 mb4">
                 {this.state.myData}
@@ -47,13 +41,21 @@ class MA extends Component {
                     <h1 className="h00 lh1 mo">{this.state.maFactor}</h1>
                     <p className="h3 bold lh1 mo">MA</p>
                 </div>
+                {/*<div className="col-6 md-col-3 p2">*/}
+                    {/*<h1 className="h00 lh1 mo">{this.state.numManTests}</h1>*/}
+                    {/*<p className="h3 bold lh1 mo"># Manual tests</p>*/}
+                {/*</div>*/}
+                {/*<div className="col-6 md-col-3 p2">*/}
+                    {/*<h1 className="h00 lh1 mo">{this.state.numAutoTests}</h1>*/}
+                    {/*<p className="h3 bold lh1 mo"># Automatic tests</p>*/}
+                {/*</div>*/}
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{this.state.numManTests}</h1>
-                    <p className="h3 bold lh1 mo"># Manual tests</p>
+                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoTests / 4).toFixed(1)}</h1>
+                    <p className="h3 bold lh1 mo">Hours of Automated testing</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{this.state.numAutoTests}</h1>
-                    <p className="h3 bold lh1 mo"># Automatic tests</p>
+                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeManTests / 4).toFixed(1)}</h1>
+                    <p className="h3 bold lh1 mo">Hours of Manual testing</p>
                 </div>
 
             </section>
