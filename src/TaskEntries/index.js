@@ -74,8 +74,16 @@ class TaskEntries extends Component {
                             <td>{item["issuenr"]}</td>
                             <td>{item["issuepr"]}</td>
                             <td>{item["issuelink"]}</td>
-                            <td>{item["mantime"]}</td>
-                            <td>{item["autotime"]}</td>
+                            <td>
+                                Prep: {item["manpreptime"]}<br />
+                                performance: {item["manperftime"]}<br />
+                                documentation: {item["mandoctime"]}
+                            </td>
+                            <td>
+                                Prep: {item["autopreptime"]}<br />
+                                performance: {item["autoperftime"]}<br />
+                                documentation: {item["autodoctime"]}
+                            </td>
                             <td>{item["started"]}</td>
                             <td>{item["ended"]}</td>
                             <td><Link to={`/TaskEntries/Edit/${item.id}`}><FaEdit/></Link></td>

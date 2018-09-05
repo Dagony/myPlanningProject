@@ -29,6 +29,11 @@ class MA extends Component {
         });
     }
 
+    // To calculate the MA factor, use the formula from the documentation
+    calculateMA(manTestPrepTime, manTestPerfTime, manTestDocTime, autoTestPrepTime, autoTestPerfTime, autoTestDocTime, repFac) {
+
+    }
+
     componentDidMount() {
         this.getData();
     }

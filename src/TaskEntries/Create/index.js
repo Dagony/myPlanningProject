@@ -12,8 +12,16 @@ class TaskEntriesCreate extends Component {
                 link: 'http://'
             },
             time: {
-                man: 0.00,
-                auto: 0.00
+                man: {
+                    prep: 0.00,
+                    perf: 0.00,
+                    doc: 0.00
+                },
+                auto: {
+                    prep: 0.00,
+                    perf: 0.00,
+                    doc: 0.00
+                }
             }
         };
 
@@ -41,8 +49,16 @@ class TaskEntriesCreate extends Component {
                 link: this.state["issue-link"]
             },
             time: {
-                man: this.state["man-time"],
-                auto: this.state["auto-time"]
+                man: {
+                    prep: this.state["man-prep"],
+                    perf: this.state["man-time"],
+                    doc: this.state["man-doc"]
+                },
+                auto: {
+                    prep: this.state["auto-prep"],
+                    perf: this.state["auto-time"],
+                    doc: this.state["auto-doc"]
+                }
             },
             started: this.state["started"],
             ended: this.state["ended"]
@@ -99,13 +115,33 @@ class TaskEntriesCreate extends Component {
                     </label>
 
                     <label>
-                        Manual time in quarters
+                        Preparing of Manual tests in quarters
+                        <input type={"text"} onChange={this.handleInputChange} name={"man-prep"} />
+                    </label>
+
+                    <label>
+                        Performing of Manual tests in quarters
                         <input type={"text"} onChange={this.handleInputChange} name={"man-time"} />
                     </label>
 
                     <label>
-                        Automated time in quarters
+                        Documenting of Manual tests in quarters
+                        <input type={"text"} onChange={this.handleInputChange} name={"man-doc"} />
+                    </label>
+
+                    <label>
+                        Preparing of Automated time in quarters
+                        <input type={"number"} step={"0.01"} onChange={this.handleInputChange} name={"auto-prep"} />
+                    </label>
+
+                    <label>
+                        Performance of Automated time in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleInputChange} name={"auto-time"} />
+                    </label>
+
+                    <label>
+                        Documenting of Automated time in quarters
+                        <input type={"number"} step={"0.01"} onChange={this.handleInputChange} name={"auto-doc"} />
                     </label>
 
                     <label>

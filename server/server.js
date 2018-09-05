@@ -44,22 +44,26 @@ app.get('/stats', function (req, res) {
     let obj = {
         numManTests: null,
         numAutoTests: null,
-        timeManTests: null,
-        timeAutoTests: null,
+        timeManPrepTests: null,
+        timeAutoPrepTests: null,
+        timeManPerfTests: null,
+        timeAutoPerfTests: null,
+        timeManDocTests: null,
+        timeAutoDocTests: null,
         MaFactor: null,
         projects: {}
     };
 
 
-    db.query("SELECT SUM(mantime) as sumManTime, SUM(autotime) as sumAutoTime FROM all_test_tasks", function (err, results) {
+    db.query("SELECT SUM(manperftime) as sumManPerfTime, SUM(autoperftime) as sumAutoPerfTime FROM all_test_tasks", function (err, results) {
         obj.timeManTests = 1;
         if (err) console.log("The Most Bad-Ass Error:\n" + err);
         else {
             // console.log("ERR:\n" + err);
             // console.log("RESULTS:\n" + JSON.stringify(results[0]));
             // console.log(results[0]);
-            obj.timeManTests = results[0].sumManTime;
-            obj.timeAutoTests = results[0].sumAutoTime;
+            obj.timeManTests = results[0].sumManPerfTime;
+            obj.timeAutoTests = results[0].sumAutoPerfTime;
         }
         db.query("SELECT count(project) AS num_projects, project FROM all_test_tasks GROUP BY project ORDER BY num_projects DESC", function (err, rows) {
             if (err) throw(err);
@@ -78,12 +82,12 @@ app.get('/stats', function (req, res) {
                     obj.projects[rows[i].project] = rows[i].num_projects;
                 }
 
-                db.query("SELECT project, COUNT(project) as cnt FROM `all_test_tasks` WHERE autotime > 0 GROUP BY project", function(err, rows) {
+                db.query("SELECT project, COUNT(project) as cnt FROM `all_test_tasks` WHERE autoperftime > 0 GROUP BY project", function(err, rows) {
                     if (err) throw(err);
                     else {
                         obj.numAutoTests = rows[0].cnt;
 
-                        db.query("SELECT project, COUNT(project) as cnt FROM `all_test_tasks` WHERE mantime > 0 GROUP BY project", function(err, rows) {
+                        db.query("SELECT project, COUNT(project) as cnt FROM `all_test_tasks` WHERE manperftime > 0 GROUP BY project", function(err, rows) {
                             if (err) throw(err);
                             else {
                                 obj.numManTests = rows[0].cnt;
@@ -121,22 +125,31 @@ app.post('/taskentries', jsonParser, function (req, res) {
         req.body.issue.nr,
         req.body.issue.pr,
         req.body.issue.link,
-        parseFloat(req.body.time.auto, 2),
-        parseFloat(req.body.time.man, 2),
+        parseFloat(req.body.time.man.prep, 2),
+        parseFloat(req.body.time.man.perf, 2),
+        parseFloat(req.body.time.man.doc, 2),
+        parseFloat(req.body.time.auto.prep, 2),
+        parseFloat(req.body.time.auto.perf, 2),
+        parseFloat(req.body.time.auto.doc, 2),
         req.body.started,
         req.body.ended
     ];
     // console.log(JSON.stringify(obj));
 
 
-    db.query("INSERT INTO all_test_tasks(qa,project,issuenr,issuepr,issuelink,autotime,mantime,started, ended) VALUES (?,?,?,?,?,?,?,?,?)", obj, function (err, result, fields) {
+    db.query("INSERT INTO all_test_tasks(" +
+        "qa,project,issuenr," +
+        "issuepr,issuelink,manpreptime," +
+        "manperftime,mandoctime,autopreptime," +
+        "autoperftime,autodoctime,started, " +
+        "ended) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", obj, function (err, result, fields) {
         // console.log(result);
         if (err) {
             // res.send(err);
             console.log(err);
         }
         else {
-            console.log(result);
+            // console.log(result);
             res.send(result);
             // console.log(result);
             // console.log(fields);
@@ -154,8 +167,12 @@ app.put('/taskentries/:id', jsonParser, function (req, res) {
         req.body.issue.nr,
         req.body.issue.pr,
         req.body.issue.link,
-        parseFloat(req.body.time.auto, 2),
-        parseFloat(req.body.time.man, 2),
+        parseFloat(req.body.time.man.prep, 2),
+        parseFloat(req.body.time.man.perf, 2),
+        parseFloat(req.body.time.man.doc, 2),
+        parseFloat(req.body.time.auto.prep, 2),
+        parseFloat(req.body.time.auto.perf, 2),
+        parseFloat(req.body.time.auto.doc, 2),
         req.body.started,
         req.body.ended,
         req.body.id
@@ -163,7 +180,7 @@ app.put('/taskentries/:id', jsonParser, function (req, res) {
 
     console.log(obj);
 
-    db.query("UPDATE all_test_tasks SET qa = ?, project = ? , issuenr = ?, issuepr = ?, issuelink = ?, autotime = ?, mantime = ?, started = ?, ended = ? WHERE id = ?", obj, function (err, result, fields) {
+    db.query("UPDATE all_test_tasks SET qa = ?, project = ? , issuenr = ?, issuepr = ?, issuelink = ?, manpreptime = ?, manperftime = ?, mandoctime = ?, autopreptime = ?, autoperftime = ?, autodoctime = ?, started = ?, ended = ? WHERE id = ?", obj, function (err, result, fields) {
         if (err) {
             console.log(err);
         } else {
@@ -363,6 +380,11 @@ app.get("/fillDatabase", function (req, res) {
     res.send({success: true});
 
 });
+
+process.on('uncaughtException', function (err) {
+    console.error(err);
+    console.log("Node NOT Exiting...");
+})
 
 function createFromMysql(mysql_string) {
     let t, result = null;
