@@ -19,7 +19,7 @@
     "whatwg-fetch": "^2.0.4",
     "yarn": "^1.7.0"
   },
-  "proxy": "http://localhost:1337",
+  "proxy": "http://localhost:8080",
   "scripts": {
     "start:server": "cd server && nodemon server.js --debug",
     "start:client": "cd src && yarn start",

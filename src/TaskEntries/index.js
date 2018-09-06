@@ -18,15 +18,15 @@ class TaskEntries extends Component {
     }
 
     async getData() {
-        let response = await fetch('/taskentries');
+        let response = await fetch('/testtask/all');
         let responseJson = await response.json();
-        return responseJson.data;
+        return responseJson;
     }
 
     async refreshData() {
         let loadedData = await this.getData();
 
-        // console.log(loadedData);
+        console.log(loadedData);
 
         this.setState({
             taskentries: loadedData

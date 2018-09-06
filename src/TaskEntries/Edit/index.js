@@ -34,7 +34,7 @@ class TaskEntriesEdit extends Component {
     async getData() {
         const {match: {params}} = this.props;
         console.log(`${params.id}`);
-        let response = await fetch(`/taskentries/${params.id}`,
+        let response = await fetch(`/testtask/${params.id}`,
             {
                 headers: {
                     'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ class TaskEntriesEdit extends Component {
         );
         let responseJson = await response.json();
 
-        return responseJson[0];
+        return responseJson;
     }
 
     async refreshData() {
@@ -71,8 +71,8 @@ class TaskEntriesEdit extends Component {
                     doc: loadedData.autodoctime
                 }
             },
-            started: loadedData.started.replace("Z", ""),
-            ended: loadedData.ended.replace("Z", "")
+            started: loadedData.started,
+            ended: loadedData.ended
         });
     }
 
