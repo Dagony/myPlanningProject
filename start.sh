@@ -1,3 +1,4 @@
 #! /bin/bash
 docker-compose up -d
-npx yarn start:dev
+nohup npx yarn start:dev &
+nohup mvn spring-boot:run &

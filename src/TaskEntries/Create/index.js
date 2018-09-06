@@ -64,9 +64,6 @@ class TaskEntriesCreate extends Component {
             ended: this.state["ended"]
         };
 
-
-
-        // console.log(this.state);
         let freedom = JSON.stringify(formData);
 
         event.preventDefault();

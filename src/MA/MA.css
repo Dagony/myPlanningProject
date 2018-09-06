@@ -203,7 +203,8 @@ select:not([multiple]) {
 
 .flex {
     display: -ms-flexbox;
-    display: flex
+    display: flex;
+    margin: 0 100px;
 }
 
 .flex-column {

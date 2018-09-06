@@ -39,9 +39,7 @@ class MA extends Component {
                     let manualTests = 0;
                     let automaticTests = 0;
 
-                    console.log(responseData);
-                    responseData.map((item, i) => {
-                        console.log("Man Prep Time: " + item.manpreptime);
+                    responseData.map((item) => {
                         manualTestPreperationTimeSpend =  manualTestPreperationTimeSpend + item.manpreptime;
                         manualTestPerformanceTimeSpend = manualTestPerformanceTimeSpend + item.manperftime;
                         manualTestDocumentationTimeSpend += item.mandoctime;
@@ -56,18 +54,8 @@ class MA extends Component {
                         if ((item.manpreptime + item.manperftime + item.mandoctime) > 0) {
                             manualTests++;
                         }
-
+                        return true; // arrow functions need a return value.
                     });
-
-                    console.log("Total Manual Testing Preparation time spend is: " + manualTestPreperationTimeSpend);
-                    console.log("Total Manual Testing Performance time spend is: " + manualTestPerformanceTimeSpend);
-                    console.log("Total Manual Testing Documantation time spend is: " + manualTestDocumentationTimeSpend);
-                    console.log("Total Manual Testing time spend is (in quarters of hours): " + manualTestTimeTotalSpend);
-                    console.log("Total Automated Testing Preparation time spend is: " + automaticTestPreparationTimeSpend);
-                    console.log("Total Automated Testing Preparation time spend is: " + automaticTestPreparationTimeSpend);
-                    console.log("Total Automated Testing Preparation time spend is: " + automaticTestPreparationTimeSpend);
-                    console.log("Total Automated Testing Preparation time spend is: " + automaticTestPreparationTimeSpend);
-
 
                     this.setState({
                         timeManPrepTests: manualTestPreperationTimeSpend / 4,
@@ -81,13 +69,11 @@ class MA extends Component {
                         numManTests: manualTests,
                         numAutoTests: automaticTests
                     });
+                    this.calculateMA();
                     return responseData;
                 });
         });
-        this.calculateMA();
     }
-
-
 
     componentDidMount() {
         this.getData();
@@ -110,6 +96,18 @@ class MA extends Component {
                     <p className="h3 bold lh1 mo"># Automatic tests</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
+                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPrepTests).toFixed(1)}</h1>
+                    <p className="h3 bold lh1 mo">Hours of Preparation of Automated testing</p>
+                </div>
+                <div className="col-6 md-col-3 p2">
+                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPerfTests).toFixed(1)}</h1>
+                    <p className="h3 bold lh1 mo">Hours of Performing of Automated testing</p>
+                </div>
+                <div className="col-6 md-col-3 p2">
+                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoDocTests).toFixed(1)}</h1>
+                    <p className="h3 bold lh1 mo">Hours of Documenting of Automated testing</p>
+                </div>
+                <div className="col-6 md-col-3 p2">
                     <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPerfTests).toFixed(1)}</h1>
                     <p className="h3 bold lh1 mo">Hours of Automated testing</p>
                 </div>
@@ -117,14 +115,20 @@ class MA extends Component {
                     <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeManTests).toFixed(1)}</h1>
                     <p className="h3 bold lh1 mo">Hours of Manual testing</p>
                 </div>
-
             </section>
-
         </div>;
     }
 
     // To calculate the MA factor, use the formula from the documentation
     calculateMA() {
+        let RF = 1; // Repeatability factor
+
+        let mtt = this.state.timeManPrepTests + ((this.state.timeManPerfTests + this.state.timeManDocTests) * RF);
+        let att = this.state.timeAutoPrepTests + ((this.state.timeAutoPerfTests + this.state.timeAutoDocTests) * RF);
+
+        this.setState({
+            maFactor: (mtt / att).toFixed(3)
+        });
 
     }
 }
