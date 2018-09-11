@@ -1,3 +1,3 @@
 #! /bin/bash
 docker-compose up -d
-npx yarn start:dev
+npx yarn start:client

@@ -18,9 +18,9 @@ class TaskEntries extends Component {
     }
 
     async getData() {
-        let response = await fetch('/taskentries');
+        let response = await fetch('/dagony/taskentries');
         let responseJson = await response.json();
-        return responseJson.data;
+        return responseJson;
     }
 
     async refreshData() {
@@ -61,7 +61,7 @@ class TaskEntries extends Component {
                         <th>auto-time</th>
                         <th>started</th>
                         <th>ended</th>
-                        <th><a className={"global-class-name"} href={"/TaskEntries/Create"}><FaPlusSquare/></a></th>
+                        <th><a className={"global-class-name"} href={"/taskentries/Create"}><FaPlusSquare/></a></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -71,22 +71,22 @@ class TaskEntries extends Component {
                             <td>{item.id}</td>
                             <td>{item.qa}</td>
                             <td>{item.project}</td>
-                            <td>{item["issuenr"]}</td>
-                            <td>{item["issuepr"]}</td>
-                            <td>{item["issuelink"]}</td>
+                            <td>{item.issueNr}</td>
+                            <td>{item.issuePr}</td>
+                            <td>{item.issueLink}</td>
                             <td>
-                                Prep: {item["manpreptime"]}<br />
-                                performance: {item["manperftime"]}<br />
-                                documentation: {item["mandoctime"]}
+                                Prep: {item.manPrepTime}<br />
+                                performance: {item.manPerfTime}<br />
+                                documentation: {item.manDocTime}
                             </td>
                             <td>
-                                Prep: {item["autopreptime"]}<br />
-                                performance: {item["autoperftime"]}<br />
-                                documentation: {item["autodoctime"]}
+                                Prep: {item.autoPrepTime}<br />
+                                performance: {item.autoPerfTime}<br />
+                                documentation: {item.autoDocTime}
                             </td>
                             <td>{item["started"]}</td>
                             <td>{item["ended"]}</td>
-                            <td><Link to={`/TaskEntries/Edit/${item.id}`}><FaEdit/></Link></td>
+                            <td><Link to={`/taskentries/Edit/${item.id}`}><FaEdit/></Link></td>
                         </tr>
                     ))}
                     </tbody>

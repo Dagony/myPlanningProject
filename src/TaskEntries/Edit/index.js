@@ -7,23 +7,15 @@ class TaskEntriesEdit extends Component {
 
         this.state = {
             qa: null,
-            issue: {
-                nr: 0,
-                pr: 0,
-                link: 'http://'
-            },
-            time: {
-                man: {
-                    prep: 0.00,
-                    perf: 0.00,
-                    doc: 0.00
-                },
-                auto: {
-                    prep: 0.00,
-                    perf: 0.00,
-                    doc: 0.00
-                }
-            },
+            issueNr: 0,
+            issuePr: 0,
+            issueLink: 'http://',
+            manPrepTime: 0.00,
+            manPerfTime: 0.00,
+            manDocTime: 0.00,
+            autoPrepTime: 0.00,
+            autoPerfTime: 0.00,
+            autoDocTime: 0.00,
             id: null
         };
 
@@ -33,8 +25,8 @@ class TaskEntriesEdit extends Component {
 
     async getData() {
         const {match: {params}} = this.props;
-        console.log(`${params.id}`);
-        let response = await fetch(`/taskentries/${params.id}`,
+        console.log(`get Task Entry with id: ${params.id}`);
+        let response = await fetch(`/dagony/taskentries/${params.id}`,
             {
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,8 +34,8 @@ class TaskEntriesEdit extends Component {
             }
         );
         let responseJson = await response.json();
-
-        return responseJson[0];
+        // console.log('This Task Entry was fetched:\n' + JSON.stringify(responseJson[0]));
+        return responseJson;
     }
 
     async refreshData() {
@@ -54,25 +46,17 @@ class TaskEntriesEdit extends Component {
             id: loadedData.id,
             qa: loadedData.qa,
             project: loadedData.project,
-            issue: {
-                nr: loadedData.issuenr,
-                pr: loadedData.issuepr,
-                link: loadedData.issueLink
-            },
-            time: {
-                man: {
-                    prep: loadedData.manpreptime,
-                    perf: loadedData.manperftime,
-                    doc: loadedData.mandoctime
-                },
-                auto: {
-                    prep: loadedData.autopreptime,
-                    perf: loadedData.autoperftime,
-                    doc: loadedData.autodoctime
-                }
-            },
-            started: loadedData.started.replace("Z", ""),
-            ended: loadedData.ended.replace("Z", "")
+            issueNr: loadedData.issuenr,
+            issuePr: loadedData.issuepr,
+            issueLink: loadedData.issueLink,
+            manPrepTime: loadedData.manpreptime,
+            manPerfTime: loadedData.manperftime,
+            manDocTime: loadedData.mandoctime,
+            autoPrepTime: loadedData.autopreptime,
+            autoPerfTime: loadedData.autoperftime,
+            autoDocTime: loadedData.autodoctime,
+            started: loadedData.started,
+            ended: loadedData.ended
         });
     }
 
@@ -90,49 +74,38 @@ class TaskEntriesEdit extends Component {
     handleSubmit(event) {
         event.preventDefault();
         let obj = {
-            id: null,
-            qa: "",
-            project: "",
-            issue: {
-                nr: 0,
-                pr: 0,
-                link: ""
-            },
-            time: {
-                man: {
-                    prep: 0,
-                    perf: 0,
-                    doc: 0
-                },
-                auto: {
-                    prep: 0,
-                    perf: 0,
-                    doc: 0
-                }
-            },
-            started: null,
-            ended: null
+            qa: null,
+            issueNr: 0,
+            issuePr: 0,
+            issueLink: 'http://',
+            manPrepTime: 0.00,
+            manPerfTime: 0.00,
+            manDocTime: 0.00,
+            autoPrepTime: 0.00,
+            autoPerfTime: 0.00,
+            autoDocTime: 0.00,
+            id: null
         };
         obj.id = event.target.id.value;
         obj.qa = event.target.qa.value;
         obj.project = event.target.project.value;
-        obj.issue.nr = event.target["issue-nr"].value;
-        obj.issue.pr = event.target["issue-pr"].value;
-        obj.issue.link = event.target["issue-link"].value;
-        obj.time.man.prep = event.target["man-prep"].value;
-        obj.time.man.perf = event.target["man-perf"].value;
-        obj.time.man.doc = event.target["man-doc"].value;
-        obj.time.auto.prep = event.target["auto-prep"].value;
-        obj.time.auto.perf = event.target["auto-perf"].value;
-        obj.time.auto.doc = event.target["auto-doc"].value;
-        obj.started = event.target["started"].value;
+        obj.issueNr = event.target["issue-nr"].value;
+        obj.issuePr = event.target["issue-pr"].value;
+        obj.issueLink = event.target["issue-link"].value;
+        obj.manPrepTime = event.target["man-prep"].value;
+        obj.manPerfTime = event.target["man-perf"].value;
+        obj.manDocTime = event.target["man-doc"].value;
+        obj.autoPrepTime = event.target["auto-prep"].value;
+        obj.autoPerfTime = event.target["auto-perf"].value;
+        obj.autoDocTime = event.target["auto-doc"].value;
+        obj.started = event.target["started"].value ;
         obj.ended = event.target["ended"].value;
         console.log("OBJ\n" + JSON.stringify(obj, null, 2));
 
         const {match: {params}} = this.props;
 
         fetch(
-            `/taskentries/${params.id}`,
+            `/dagony/taskentries`,
             {
                 method: 'put',
                 body: JSON.stringify(obj),
@@ -165,7 +138,7 @@ class TaskEntriesEdit extends Component {
 
                     <label>
                         QA-er
-                        <select name={"qa"} onChange={this.handleChange}>
+                        <select name={"qa"} value={this.state.qa} onChange={this.handleChange}>
                             <option key={'mark'} value="mark">Mark</option>
                             <option key={'pauli'} value="pauli">Pauli</option>
                         </select>
@@ -179,56 +152,56 @@ class TaskEntriesEdit extends Component {
 
                     <label>
                         Issue NR
-                        <input type={"number"} onChange={this.handleChange} value={this.state.issue.nr}
+                        <input type={"number"} onChange={this.handleChange} value={this.state.issueNr}
                                name={"issue-nr"}/>
                     </label>
 
                     <label>
                         Issue PR
-                        <input type={"number"} onChange={this.handleChange} value={this.state.issue.pr}
+                        <input type={"number"} onChange={this.handleChange} value={this.state.issuePr}
                                name={"issue-pr"}/>
                     </label>
 
                     <label>
                         Issue Link
-                        <input type={"text"} onChange={this.handleChange} value={this.state.issue.link}
+                        <input type={"text"} onChange={this.handleChange} value={this.state.issueLink}
                                name={"issue-link"}/>
                     </label>
 
                     <label>
                         Preparation of manual tests in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.time.man.prep} name={"man-prep"}/>
+                               value={this.state.manPrepTime} name={"man-prep"}/>
                     </label>
 
                     <label>
                         Performing of manual time in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.time.man.perf} name={"man-time"}/>
+                               value={this.state.manPerfTime} name={"man-perf"}/>
                     </label>
 
                     <label>
                         Documenting of manual time in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.time.man.doc} name={"man-doc"}/>
+                               value={this.state.manDocTime} name={"man-doc"}/>
                     </label>
 
                     <label>
                         Preparation of automated tests in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.time.auto.prep} name={"auto-prep"}/>
+                               value={this.state.autoPrepTime} name={"auto-prep"}/>
                     </label>
 
                     <label>
                         Performing of automated tests in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.time.auto.perf} name={"auto-perf"}/>
+                               value={this.state.autoPerfTime} name={"auto-perf"}/>
                     </label>
 
                     <label>
                         Documenting of automated time in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.time.auto.doc} name={"auto-doc"}/>
+                               value={this.state.autoDocTime} name={"auto-doc"}/>
                     </label>
 
                     <label>

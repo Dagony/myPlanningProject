@@ -6,23 +6,15 @@ class TaskEntriesCreate extends Component {
         super(props);
         this.state = {
             qa: 'Pauli',
-            issue: {
-                nr: 0,
-                pr: 0,
-                link: 'http://'
-            },
-            time: {
-                man: {
-                    prep: 0.00,
-                    perf: 0.00,
-                    doc: 0.00
-                },
-                auto: {
-                    prep: 0.00,
-                    perf: 0.00,
-                    doc: 0.00
-                }
-            }
+            issueNr: 0,
+            issuePrr: 0,
+            issueLink: 'http://',
+            manPrepTime:  0.00,
+            manPerfTime: 0.00,
+            manDocTime: 0.00,
+            autoPrepTim: 0.00,
+            autoPerfTime: 0.00,
+            autoDocTime: 0.00
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -43,23 +35,15 @@ class TaskEntriesCreate extends Component {
         let formData = {
             qa: this.state.qa,
             project: this.state.project,
-            issue: {
-                nr: this.state["issue-nr"],
-                pr: this.state["issue-pr"],
-                link: this.state["issue-link"]
-            },
-            time: {
-                man: {
-                    prep: this.state["man-prep"],
-                    perf: this.state["man-time"],
-                    doc: this.state["man-doc"]
-                },
-                auto: {
-                    prep: this.state["auto-prep"],
-                    perf: this.state["auto-time"],
-                    doc: this.state["auto-doc"]
-                }
-            },
+            issueNr: this.state["issue-nr"],
+            issuePr: this.state["issue-pr"],
+            issueLink: this.state["issue-link"],
+            manPrepTime: this.state["man-prep"],
+            manPerfTime: this.state["man-time"],
+            manDocTime: this.state["man-doc"],
+            autoPrepTime: this.state["auto-prep"],
+            autoPerfTime: this.state["auto-time"],
+            autoDocTime: this.state["auto-doc"],
             started: this.state["started"],
             ended: this.state["ended"]
         };
@@ -68,9 +52,10 @@ class TaskEntriesCreate extends Component {
 
         // console.log(this.state);
         let freedom = JSON.stringify(formData);
+        console.log("FREEDOM!!!!\n" + freedom);
 
         event.preventDefault();
-        fetch('/taskentries', {
+        fetch('/dagony/TaskEntries', {
             method: 'POST',
             body: freedom
             ,headers: {
