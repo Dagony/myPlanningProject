@@ -1,13 +1,13 @@
 /*global gantt*/
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import 'dhtmlx-gantt';
 import 'dhtmlx-gantt/codebase/ext/dhtmlxgantt_tooltip';
 import 'dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker';
 import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
 
 export default class Gantt extends Component {
-    setZoom(value){
-        switch (value){
+    setZoom(value) {
+        switch (value) {
             case 'Hours':
                 gantt.config.scale_unit = 'day';
                 gantt.config.date_scale = '%d %M';
@@ -15,7 +15,7 @@ export default class Gantt extends Component {
                 gantt.config.scale_height = 60;
                 gantt.config.min_column_width = 30;
                 gantt.config.subscales = [
-                    {unit:'hour', step:1, date:'%H'}
+                    {unit: 'hour', step: 1, date: '%H'}
                 ];
                 break;
             case 'Days':
@@ -33,7 +33,7 @@ export default class Gantt extends Component {
                 gantt.config.date_scale = "%F";
                 gantt.config.scale_height = 60;
                 gantt.config.subscales = [
-                    {unit:"week", step:1, date:"#%W"}
+                    {unit: "week", step: 1, date: "#%W"}
                 ];
                 break;
             default:
@@ -41,7 +41,7 @@ export default class Gantt extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps ){
+    shouldComponentUpdate(nextProps) {
         return this.props.zoom !== nextProps.zoom;
     }
 
@@ -50,44 +50,44 @@ export default class Gantt extends Component {
     }
 
     initGanttEvents() {
-        if(gantt.ganttEventsInitialized){
+        if (gantt.ganttEventsInitialized) {
             return;
         }
         gantt.ganttEventsInitialized = true;
 
         gantt.attachEvent('onAfterTaskAdd', (id, task) => {
-            if(this.props.onTaskUpdated) {
+            if (this.props.onTaskUpdated) {
                 this.props.onTaskUpdated(id, 'inserted', task);
             }
         });
 
         gantt.attachEvent('onAfterTaskUpdate', (id, task) => {
-            if(this.props.onTaskUpdated) {
+            if (this.props.onTaskUpdated) {
                 this.props.onTaskUpdated(id, 'updated', task);
             }
         });
 
         gantt.attachEvent('onAfterTaskDelete', (id) => {
-            if(this.props.onTaskUpdated) {
+            if (this.props.onTaskUpdated) {
                 this.props.onTaskUpdated(id, 'deleted');
             }
         });
 
         gantt.attachEvent('onAfterLinkAdd', (id, link) => {
-            if(this.props.onLinkUpdated) {
+            if (this.props.onLinkUpdated) {
                 this.props.onLinkUpdated(id, 'inserted', link);
             }
         });
 
         gantt.attachEvent('onAfterLinkUpdate', (id, link) => {
-            if(this.props.onLinkUpdated) {
+            if (this.props.onLinkUpdated) {
                 this.props.onLinkUpdated(id, 'updated', link);
             }
         });
 
         gantt.attachEvent('onAfterLinkDelete', (id, link) => {
             alert("You've just clicked an item with id=" + id);
-            if(this.props.onLinkUpdated) {
+            if (this.props.onLinkUpdated) {
                 this.props.onLinkUpdated(id, 'deleted');
             }
         });
@@ -97,67 +97,118 @@ export default class Gantt extends Component {
 
     componentDidMount() {
         this.initGanttEvents();
-        gantt.load("/data");
-        let dp = new gantt.dataProcessor("/data");
+        let _data = [];
+        let _links = [];
+        let dp = new gantt.dataProcessor("/dagony/gantttasks");
         dp.init(gantt);
         dp.setTransactionMode("REST");
 
-        (function(){
+        fetch(
+            "/dagony/gantttasks"
+        ).then((response) => {
+                return response.json();
+            }
+        ).then((json) => {
+            json.start_date = json.startDate;
 
-            gantt._show_tooltip = function(text, pos) {
-                if (gantt.config.touch && !gantt.config.touch_tooltip) return;
+            for(let i = 0; i < json.length; i++) {
+                // json[i].start_date = json[i].startDate;
+                console.log(json[i].id);
+                console.log(json[i].startDate);
+                _data.push(
+                    {
+                        id: json[i].id,
+                        text: json[i].text,
+                        start_date: json[i].startDate,
+                        duration: json[i].duration,
+                        progress: json[i].progress
+                    }
+                );
+            }
 
-                let tip = this._create_tooltip();
+            fetch(
+                "/dagony/ganttlinks"
+            ).then((response) => {
+                return response.json();
+            }).then((json, resolve) => {
 
-                tip.innerHTML = text;
-                gantt.$task_data.appendChild(tip);
 
-                let width = tip.offsetWidth + 20;
-                let height = tip.offsetHeight + 40;
-                let max_height = window.outerHeight;
-                let max_width = this.$task.offsetWidth;
-                let scroll = this.getScrollState();
+                _links.push(json);
 
-                gantt._waiAria.tooltipVisibleAttr(tip);
 
-                pos.y += scroll.y;
 
-                let mouse_pos = {
-                    x: pos.x,
-                    y: pos.y
-                };
+                gantt.parse({
+                    data: _data,
+                    links: _links
+                });
 
-                pos.x += (gantt.config.tooltip_offset_x*1 || 0);
-                pos.y += (gantt.config.tooltip_offset_y*1 || 0);
 
-                pos.y = Math.min(Math.max(scroll.y, pos.y), scroll.y+max_height - height);
-                pos.x = Math.min(Math.max(scroll.x, pos.x), scroll.x+max_width - width);
+                (function () {
 
-                if (gantt._is_cursor_under_tooltip(mouse_pos, {pos: pos, width: width, height: height})) {
-                    if((mouse_pos.x+width) > (max_width + scroll.x)) pos.x = mouse_pos.x - (width - 20) - (gantt.config.tooltip_offset_x*1 || 0);
-                    if((mouse_pos.y+height) > (max_height + scroll.y)) pos.y = mouse_pos.y - (height - 40) - (gantt.config.tooltip_offset_y*1 || 0);
-                }
+                    gantt._show_tooltip = function (text, pos) {
+                        if (gantt.config.touch && !gantt.config.touch_tooltip) return;
 
-                tip.style.left = pos.x + "px";
-                tip.style.top  = pos.y + "px";
-                // tip.style.zIndex = 999;
-            };
+                        let tip = this._create_tooltip();
 
-        })();
+                        tip.innerHTML = text;
+                        gantt.$task_data.appendChild(tip);
+
+                        let width = tip.offsetWidth + 20;
+                        let height = tip.offsetHeight + 40;
+                        let max_height = window.outerHeight;
+                        let max_width = this.$task.offsetWidth;
+                        let scroll = this.getScrollState();
+
+                        gantt._waiAria.tooltipVisibleAttr(tip);
+
+                        pos.y += scroll.y;
+
+                        let mouse_pos = {
+                            x: pos.x,
+                            y: pos.y
+                        };
+
+                        pos.x += (gantt.config.tooltip_offset_x * 1 || 0);
+                        pos.y += (gantt.config.tooltip_offset_y * 1 || 0);
+
+                        pos.y = Math.min(Math.max(scroll.y, pos.y), scroll.y + max_height - height);
+                        pos.x = Math.min(Math.max(scroll.x, pos.x), scroll.x + max_width - width);
+
+                        if (gantt._is_cursor_under_tooltip(mouse_pos, {pos: pos, width: width, height: height})) {
+                            if ((mouse_pos.x + width) > (max_width + scroll.x)) pos.x = mouse_pos.x - (width - 20) - (gantt.config.tooltip_offset_x * 1 || 0);
+                            if ((mouse_pos.y + height) > (max_height + scroll.y)) pos.y = mouse_pos.y - (height - 40) - (gantt.config.tooltip_offset_y * 1 || 0);
+                        }
+
+                        tip.style.left = pos.x + "px";
+                        tip.style.top = pos.y + "px";
+                        // tip.style.zIndex = 999;
+                    };
+
+                })();
+                // resolve();
+            });
+        });
+
+
+
+
 
         // Define the look of the tasks
-        gantt.templates.task_text=function(start, end, task) {
+        gantt.templates.task_text = function (start, end, task) {
             return "<span style='text-align: left'> " + formatProgress(task.progress) + " </span>" + task.text;
         };
 
 
-
         gantt.config.columns = [
-            {name:"text",       label:"Task name",  tree: true, width: 300, resize: true },
-            {name:"start_date", label:"Start time", align: "center" },
-            {name:"duration",   label:"Days",   align: "center" },
-            { name: "progress",     label: "Progress",      width: 100, align: "center", template: function(obj) { return formatProgress(obj.progress); } },
-            { name: "add",          label: "",              width: 44 }
+            {name: "text", label: "Task name", tree: true, width: 300, resize: true},
+            {name: "start_date", label: "Start time", align: "center"},
+            {name: "duration", label: "Days", align: "center"},
+            {
+                name: "progress", label: "Progress", width: 100, align: "center", template: function (obj) {
+                    return formatProgress(obj.progress);
+                }
+            },
+            {name: "add", label: "", width: 44}
         ];
 
         gantt.config.keep_grid_width = false;
@@ -166,22 +217,21 @@ export default class Gantt extends Component {
             start_date: new Date(),
             css: "today",
             text: "Now",
-            title: new Date().toLocaleDateString('nl-NL', { timeZone: 'GMT'})
+            title: new Date().toLocaleDateString('nl-NL', {timeZone: 'GMT'})
         });
 
         gantt.init(this.ganttContainer);
 
         // Define the look of the tooltip hovering over tasks
-        gantt.templates.tooltip_text = function(start, end, task) {
+        gantt.templates.tooltip_text = function (start, end, task) {
             let textDetail = task.text_detail ? task.text_detail : '';
             return "<b>Task: </b>" + task.text + "<br />" +
                 "<b>Duration: </b>" + task.duration + " days<br/>" +
                 "<b>Progress: </b>" + formatProgress(task.progress) + " <br/>" +
-                "<b>Start date: </b>" + task.start_date.toLocaleDateString('nl-NL', { timeZone: 'GMT'}) + "<br />" +
-                "<b>End date: </b>" + task.end_date.toLocaleDateString('nl-NL', { timeZone: 'GMT'}) + "<br />" +
+                "<b>Start date: </b>" + task.start_date.toLocaleDateString('nl-NL', {timeZone: 'GMT'}) + "<br />" +
+                "<b>End date: </b>" + task.end_date.toLocaleDateString('nl-NL', {timeZone: 'GMT'}) + "<br />" +
                 textDetail;
         };
-
 
 
         dp.destructor();
@@ -195,7 +245,9 @@ export default class Gantt extends Component {
 
         return (
             <div
-                ref={(input) => { this.ganttContainer = input }}
+                ref={(input) => {
+                    this.ganttContainer = input
+                }}
                 style={{width: '100%', height: '100%'}}
             ></div>
         );

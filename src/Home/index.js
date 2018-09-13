@@ -12,7 +12,8 @@ class Home extends Component {
         super(props);
         this.state = {
             currentZoom: 'Months',
-            messages: []
+            messages: [],
+            data: []
         };
 
         // this.data = getJsonData();

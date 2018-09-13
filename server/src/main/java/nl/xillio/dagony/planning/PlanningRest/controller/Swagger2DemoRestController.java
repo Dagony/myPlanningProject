@@ -1,7 +1,11 @@
 package nl.xillio.dagony.planning.PlanningRest.controller;
 
 import io.swagger.annotations.Api;
+import nl.xillio.dagony.planning.PlanningRest.model.GanttLinks;
+import nl.xillio.dagony.planning.PlanningRest.model.GanttTask;
 import nl.xillio.dagony.planning.PlanningRest.model.TaskEntry;
+import nl.xillio.dagony.planning.PlanningRest.repository.GanttLinksRepository;
+import nl.xillio.dagony.planning.PlanningRest.repository.GanttTaskRepository;
 import nl.xillio.dagony.planning.PlanningRest.repository.TaskEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +17,14 @@ import java.util.List;
 public class Swagger2DemoRestController {
 
     private final TaskEntryRepository ter;
+    private final GanttTaskRepository gtr;
+    private final GanttLinksRepository glr;
 
     @Autowired
-    public Swagger2DemoRestController(TaskEntryRepository ter) {
+    public Swagger2DemoRestController(TaskEntryRepository ter, GanttTaskRepository gtr, GanttLinksRepository glr) {
         this.ter = ter;
+        this.gtr = gtr;
+        this.glr = glr;
     }
 
     @GetMapping("/taskentries/{id}")
@@ -49,4 +57,15 @@ public class Swagger2DemoRestController {
         body.setId(null);
         return ter.save(body);
     }
+
+    @GetMapping("/gantttasks")
+    public Iterable<GanttTask> getGanttTasks() {
+        return gtr.findAll();
+    }
+
+    @GetMapping("/gantttasks/{id}")
+    public GanttTask getGanttTask(@PathVariable(value = "id") long id) { return gtr.findOneById(id); }
+
+    @GetMapping("/ganttlinks")
+    public Iterable<GanttLinks> getGanttLinks() { return glr.findAll(); }
 }
