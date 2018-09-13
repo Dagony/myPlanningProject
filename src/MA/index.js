@@ -24,7 +24,7 @@ class MA extends Component {
     }
 
     getData() {
-        fetch('/testtask/all').then((response) => {
+        fetch('/dagony/taskentries').then((response) => {
             return response.json()
                 .then((responseData) => {
 
@@ -40,18 +40,18 @@ class MA extends Component {
                     let automaticTests = 0;
 
                     responseData.map((item) => {
-                        manualTestPreperationTimeSpend =  manualTestPreperationTimeSpend + item.manpreptime;
-                        manualTestPerformanceTimeSpend = manualTestPerformanceTimeSpend + item.manperftime;
-                        manualTestDocumentationTimeSpend += item.mandoctime;
-                        manualTestTimeTotalSpend = manualTestTimeTotalSpend + item.manpreptime + item.manperftime + item.mandoctime;
-                        automaticTestPreparationTimeSpend = automaticTestPreparationTimeSpend + item.autopreptime;
-                        automaticTestPerformanceTimeSpend = automaticTestPerformanceTimeSpend + item.autoperftime;
-                        automaticTestDocumentationTimeSpend = automaticTestDocumentationTimeSpend + item.autodoctime;
-                        automaticTestTimeSpend += item.autopreptime + item.autoperftime + item.autodoctime;
-                        if ((item.autopreptime + item.autoperftime + item.autodoctime) > 0) {
+                        manualTestPreperationTimeSpend =  manualTestPreperationTimeSpend + item.manPrepTime;
+                        manualTestPerformanceTimeSpend = manualTestPerformanceTimeSpend + item.manPerfTime;
+                        manualTestDocumentationTimeSpend += item.manDocTime;
+                        manualTestTimeTotalSpend = manualTestTimeTotalSpend + item.manPrepTime + item.manPerfTime + item.manDocTime;
+                        automaticTestPreparationTimeSpend = automaticTestPreparationTimeSpend + item.autoPrepTime;
+                        automaticTestPerformanceTimeSpend = automaticTestPerformanceTimeSpend + item.autoPerfTime;
+                        automaticTestDocumentationTimeSpend = automaticTestDocumentationTimeSpend + item.autoDocTime;
+                        automaticTestTimeSpend += item.autoPrepTime + item.autoPerfTime + item.autoDocTime;
+                        if ((item.autoPrepTime + item.autoPerfTime + item.autoDocTime) > 0) {
                             automaticTests++;
                         }
-                        if ((item.manpreptime + item.manperftime + item.mandoctime) > 0) {
+                        if ((item.manPrepTime + item.manPerfTime + item.manDocTime) > 0) {
                             manualTests++;
                         }
                         return true; // arrow functions need a return value.

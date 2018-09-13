@@ -33,9 +33,7 @@ class TaskEntriesEdit extends Component {
                 }
             }
         );
-        let responseJson = await response.json();
-        // console.log('This Task Entry was fetched:\n' + JSON.stringify(responseJson[0]));
-        return responseJson;
+        return await response.json();
     }
 
     async refreshData() {
@@ -89,20 +87,18 @@ class TaskEntriesEdit extends Component {
         obj.id = event.target.id.value;
         obj.qa = event.target.qa.value;
         obj.project = event.target.project.value;
-        obj.issueNr = event.target["issue-nr"].value;
-        obj.issuePr = event.target["issue-pr"].value;
-        obj.issueLink = event.target["issue-link"].value;
-        obj.manPrepTime = event.target["man-prep"].value;
-        obj.manPerfTime = event.target["man-perf"].value;
-        obj.manDocTime = event.target["man-doc"].value;
-        obj.autoPrepTime = event.target["auto-prep"].value;
-        obj.autoPerfTime = event.target["auto-perf"].value;
-        obj.autoDocTime = event.target["auto-doc"].value;
-        obj.started = event.target["started"].value ;
-        obj.ended = event.target["ended"].value;
+        obj.issueNr = event.target.issueNr.value;
+        obj.issuePr = event.target.issuePr.value;
+        obj.issueLink = event.target.issueLink.value;
+        obj.manPrepTime = event.target.manPrepTime.value;
+        obj.manPerfTime = event.target.manPerfTime.value;
+        obj.manDocTime = event.target.manDocTime.value;
+        obj.autoPrepTime = event.target.autoPrepTime.value;
+        obj.autoPerfTime = event.target.autoPerfTime.value;
+        obj.autoDocTime = event.target.autoDocTime.value;
+        obj.started = event.target.started.value;
+        obj.ended = event.target.ended.value;
         console.log("OBJ\n" + JSON.stringify(obj, null, 2));
-
-        const {match: {params}} = this.props;
 
         fetch(
             `/dagony/taskentries`,
@@ -114,15 +110,12 @@ class TaskEntriesEdit extends Component {
                 }
             }
         );
-
-
     }
 
     componentDidMount() {
         this.refreshData();
         console.log('STATE\n' + JSON.stringify(this.state, null, 2));
     }
-
 
     render() {
         return (
@@ -153,66 +146,66 @@ class TaskEntriesEdit extends Component {
                     <label>
                         Issue NR
                         <input type={"number"} onChange={this.handleChange} value={this.state.issueNr}
-                               name={"issue-nr"}/>
+                               name={"issueNr"}/>
                     </label>
 
                     <label>
                         Issue PR
                         <input type={"number"} onChange={this.handleChange} value={this.state.issuePr}
-                               name={"issue-pr"}/>
+                               name={"issuePr"}/>
                     </label>
 
                     <label>
                         Issue Link
                         <input type={"text"} onChange={this.handleChange} value={this.state.issueLink}
-                               name={"issue-link"}/>
+                               name={"issueLink"}/>
                     </label>
 
                     <label>
                         Preparation of manual tests in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.manPrepTime} name={"man-prep"}/>
+                               value={this.state.manPrepTime} name={"manPrepTime"}/>
                     </label>
 
                     <label>
                         Performing of manual time in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.manPerfTime} name={"man-perf"}/>
+                               value={this.state.manPerfTime} name={"manPerfTime"}/>
                     </label>
 
                     <label>
                         Documenting of manual time in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.manDocTime} name={"man-doc"}/>
+                               value={this.state.manDocTime} name={"manDocTime"}/>
                     </label>
 
                     <label>
                         Preparation of automated tests in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.autoPrepTime} name={"auto-prep"}/>
+                               value={this.state.autoPrepTime} name={"autoPrepTime"}/>
                     </label>
 
                     <label>
                         Performing of automated tests in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.autoPerfTime} name={"auto-perf"}/>
+                               value={this.state.autoPerfTime} name={"autoPerfTime"}/>
                     </label>
 
                     <label>
                         Documenting of automated time in quarters
                         <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.autoDocTime} name={"auto-doc"}/>
+                               value={this.state.autoDocTime} name={"autoDocTime"}/>
                     </label>
 
                     <label>
                         Started
-                        <input type={"datetime-local"} onChange={this.handleChange} value={this.state.started}
+                        <input type={"date"} onChange={this.handleChange} value={this.state.started}
                                name={"started"}/>
                     </label>
 
                     <label>
                         Ended
-                        <input type={"datetime-local"} onChange={this.handleChange} value={this.state.ended}
+                        <input type={"date"} onChange={this.handleChange} value={this.state.ended}
                                name={"ended"}/>
                     </label>
 
