@@ -109,19 +109,20 @@ export default class Gantt extends Component {
                 return response.json();
             }
         ).then((json) => {
+            console.log(json);
             json.start_date = json.startDate;
 
             for(let i = 0; i < json.length; i++) {
                 // json[i].start_date = json[i].startDate;
-                console.log(json[i].id);
-                console.log(json[i].startDate);
+                let myDate = new Date(json[i].startDate);
+
                 _data.push(
                     {
                         id: json[i].id,
                         text: json[i].text,
-                        start_date: json[i].startDate,
+                        start_date: myDate,
                         duration: json[i].duration,
-                        progress: json[i].progress
+                        progress: parseFloat(json[i].progress).toFixed(4)
                     }
                 );
             }
@@ -133,9 +134,8 @@ export default class Gantt extends Component {
             }).then((json, resolve) => {
 
 
-                _links.push(json);
-
-
+                _links = json;
+                console.log(_links);
 
                 gantt.parse({
                     data: _data,

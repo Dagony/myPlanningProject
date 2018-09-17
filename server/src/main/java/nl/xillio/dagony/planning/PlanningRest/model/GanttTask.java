@@ -15,7 +15,7 @@ public class GanttTask {
     private Long id;
     private String text;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy") // yyyy-MM-dd
     private Date startDate;
     private int duration;
     private Double progress;
