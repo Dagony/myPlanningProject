@@ -68,4 +68,10 @@ public class Swagger2DemoRestController {
 
     @GetMapping("/ganttlinks")
     public Iterable<GanttLinks> getGanttLinks() { return glr.findAll(); }
+
+    @PutMapping("/gantttasks")
+    public GanttTask updateGanttTask(@RequestBody GanttTask body) {
+        System.out.println("body = [" + body + "]");
+        return gtr.save(body);
+    }
 }

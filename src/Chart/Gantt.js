@@ -62,9 +62,34 @@ export default class Gantt extends Component {
         });
 
         gantt.attachEvent('onAfterTaskUpdate', (id, task) => {
+            // Convert dhtmlx Gantt chart task data to my model
+            let myObject = {
+                id: task.id,
+                text: task.text,
+                startDate: new Date(task.start_date).toISOString().slice(0,10),
+                duration: task.duration,
+                progress: Number.parseFloat(task.progress).toFixed(2),
+                parent: task.parent
+            };
+
+            // Send Updated task data to the backend
             if (this.props.onTaskUpdated) {
+                fetch("/dagony/gantttasks", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8"
+                    },
+                    body: JSON.stringify(myObject)
+                }).then((response) => {
+                    // console.log("This is the response: \n" + JSON.stringify(response, null, 2));
+                    return response.json()
+                })
+                .then((json) => {
+                    console.log(JSON.stringify(json))
+                });
                 this.props.onTaskUpdated(id, 'updated', task);
             }
+            gantt.render();
         });
 
         gantt.attachEvent('onAfterTaskDelete', (id) => {
@@ -109,20 +134,19 @@ export default class Gantt extends Component {
                 return response.json();
             }
         ).then((json) => {
-            console.log(json);
-            json.start_date = json.startDate;
+            // console.log(json);
+            // json.start_date = json.startDate;
 
-            for(let i = 0; i < json.length; i++) {
-                // json[i].start_date = json[i].startDate;
+            for (let i = 0; i < json.length; i++) {
                 let myDate = new Date(json[i].startDate);
-
                 _data.push(
                     {
                         id: json[i].id,
                         text: json[i].text,
                         start_date: myDate,
                         duration: json[i].duration,
-                        progress: parseFloat(json[i].progress).toFixed(4)
+                        progress: parseFloat(json[i].progress).toFixed(4),
+                        parent: json[i].parent
                     }
                 );
             }
@@ -131,11 +155,16 @@ export default class Gantt extends Component {
                 "/dagony/ganttlinks"
             ).then((response) => {
                 return response.json();
-            }).then((json, resolve) => {
+            }).then((json) => {
 
 
                 _links = json;
-                console.log(_links);
+                // console.log(_links);
+                //
+                // // _data.start_date = _data.start_date.toISOString().slice(0,10);
+                //
+                // console.log(_data);
+
 
                 gantt.parse({
                     data: _data,
@@ -190,15 +219,12 @@ export default class Gantt extends Component {
         });
 
 
-
-
-
         // Define the look of the tasks
         gantt.templates.task_text = function (start, end, task) {
             return "<span style='text-align: left'> " + formatProgress(task.progress) + " </span>" + task.text;
         };
 
-
+        // gantt.
         gantt.config.columns = [
             {name: "text", label: "Task name", tree: true, width: 300, resize: true},
             {name: "start_date", label: "Start time", align: "center"},

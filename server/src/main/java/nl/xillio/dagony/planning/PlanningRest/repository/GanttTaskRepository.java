@@ -10,4 +10,7 @@ public interface GanttTaskRepository extends CrudRepository<GanttTask, Integer> 
     GanttTask findOneById(long id);
 
     List<GanttTask> findAll();
+
+    <S extends GanttTask> S save(S entity);
+
 }

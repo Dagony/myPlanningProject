@@ -15,17 +15,17 @@ public class GanttTask {
     private Long id;
     private String text;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy") // yyyy-MM-dd
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") // dd-MM-yyyy
     private Date startDate;
     private int duration;
     private Double progress;
-    private int parent;
+    private Long parent;
 
     public GanttTask() {
 
     }
 
-    public GanttTask(Long id, String text, Date startDate, int duration, Double progress, int parent) {
+    public GanttTask(Long id, String text, Date startDate, int duration, Double progress, Long parent) {
 
     }
 
@@ -69,11 +69,8 @@ public class GanttTask {
         this.progress = progress;
     }
 
-    public int getParent() {
-        return parent;
-    }
+    public Long getParent() { return parent; }
 
-    public void setParent(int parent) {
-        this.parent = parent;
-    }
+    public void setParent(Long parent) { this.parent = parent; }
+
 }
