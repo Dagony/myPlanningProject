@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Button, Card, Row, Input, Col} from "react-materialize";
 
 class TaskEntriesEdit extends Component {
 
@@ -44,15 +45,15 @@ class TaskEntriesEdit extends Component {
             id: loadedData.id,
             qa: loadedData.qa,
             project: loadedData.project,
-            issueNr: loadedData.issuenr,
-            issuePr: loadedData.issuepr,
+            issueNr: loadedData.issueNr,
+            issuePr: loadedData.issuePr,
             issueLink: loadedData.issueLink,
-            manPrepTime: loadedData.manpreptime,
-            manPerfTime: loadedData.manperftime,
-            manDocTime: loadedData.mandoctime,
-            autoPrepTime: loadedData.autopreptime,
-            autoPerfTime: loadedData.autoperftime,
-            autoDocTime: loadedData.autodoctime,
+            manPrepTime: loadedData.manPrepTime,
+            manPerfTime: loadedData.manPerfTime,
+            manDocTime: loadedData.manDocTime,
+            autoPrepTime: loadedData.autoPrepTime,
+            autoPerfTime: loadedData.autoPerfTime,
+            autoDocTime: loadedData.autoDocTime,
             started: loadedData.started,
             ended: loadedData.ended
         });
@@ -117,99 +118,106 @@ class TaskEntriesEdit extends Component {
         console.log('STATE\n' + JSON.stringify(this.state, null, 2));
     }
 
+
     render() {
+
         return (
             <div className={"centered"}>
                 Edit task entry:<br/>
                 <form onSubmit={this.handleSubmit}>
 
-                    <label>
-                        ID
-                        <input type={"number"} onChange={this.handleChange} value={this.state.id} name={"id"}
-                               disabled={true}/>
-                    </label>
+                    <Row>
+                        <Input type={"number"} placeholder={this.state.id} value={this.state.id}
+                               disabled={true} label={"id"} name={"id"}/>
+                    </Row>
 
-                    <label>
-                        QA-er
-                        <select name={"qa"} value={this.state.qa} onChange={this.handleChange}>
-                            <option key={'mark'} value="mark">Mark</option>
-                            <option key={'pauli'} value="pauli">Pauli</option>
-                        </select>
-                    </label>
+                    <Row>
+                        <Input type={"select"} label={"QA Person"} defaultValue={"Mark"} onChange={this.handleChange}
+                               name={"qa"}>
+                            <option value={"mark"}>Mark</option>
+                            <option value={"pauli"}>Pauli</option>
+                        </Input>
+                    </Row>
 
-                    <label>
-                        Project
-                        <input type={"text"} onChange={this.handleChange} value={this.state.project}
-                               name={"project"}/>
-                    </label>
+                    <Row>
+                        <Input onChange={this.handleChange} value={this.state.project} placeholder={"Project"}
+                               label={"Project"} name={"project"} />
+                    </Row>
 
-                    <label>
-                        Issue NR
-                        <input type={"number"} onChange={this.handleChange} value={this.state.issueNr}
-                               name={"issueNr"}/>
-                    </label>
+                    <Card title={"Issue"}>
+                        <Row>
+                            <Col s={"4"}>
+                                <Input type={"number"} onChange={this.handleChange} value={this.state.issueNr}
+                                       name={"issueNr"} label={"Issue NR"} placeholder={"0.00"}/>
+                            </Col>
+                            <Col s={"4"}>
+                                <Input type={"number"} onChange={this.handleChange} value={this.state.issuePr}
+                                       name={"issuePr"} label={"Issue PR"} placeholder={"0.00"}/>
+                            </Col>
+                            <Col s={"4"}>
+                                <Input type={"text"} length={200} onChange={this.handleChange}
+                                       value={this.state.issueLink}
+                                       name={"issueLink"} label={"Issue Link"} placeholder={"http://"}/>
+                            </Col>
+                        </Row>
+                    </Card>
 
-                    <label>
-                        Issue PR
-                        <input type={"number"} onChange={this.handleChange} value={this.state.issuePr}
-                               name={"issuePr"}/>
-                    </label>
+                    <Card title={"Manual Testing"}>
+                        <Row>
+                            <Col s={4} className={"grid-example"}>
+                                <Input type={"number"} step={"0.01"} onChange={this.handleChange}
+                                       value={this.state.manPrepTime} name={"manPrepTime"}
+                                       label={"Preparation Time in Quarter-Hours"}/>
+                            </Col>
 
-                    <label>
-                        Issue Link
-                        <input type={"text"} onChange={this.handleChange} value={this.state.issueLink}
-                               name={"issueLink"}/>
-                    </label>
+                            <Col s={4} className={"grid-example"}>
+                                <Input type={"number"} step={"0.01"} onChange={this.handleChange}
+                                       label={"Performing Time in Quarter-Hours"} value={this.state.manPerfTime}
+                                       name={"manPerfTime"}/>
+                            </Col>
 
-                    <label>
-                        Preparation of manual tests in quarters
-                        <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.manPrepTime} name={"manPrepTime"}/>
-                    </label>
+                            <Col s={4} className={"grid-example"}>
+                                <Input type={"number"} step={"0.01"} onChange={this.handleChange}
+                                       value={this.state.manDocTime} name={"manDocTime"}
+                                       label={"Documenting Time in Quarter-Hours"}/>
+                            </Col>
+                        </Row>
+                    </Card>
 
-                    <label>
-                        Performing of manual time in quarters
-                        <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.manPerfTime} name={"manPerfTime"}/>
-                    </label>
+                    <Card title={"Automated Testing"}>
+                        <Row>
+                            <Col s={4} className={"grid-example"}>
+                                <Input type={"number"} step={"0.01"} onChange={this.handleChange}
+                                       value={this.state.autoPrepTime} name={"autoPrepTime"}
+                                       label={"Preparation Time in Quarter-Hours"}/>
+                            </Col>
+                            <Col s={4} className={"grid-example"}>
+                                <Input type={"number"} step={"0.01"} onChange={this.handleChange}
+                                       value={this.state.autoPerfTime} name={"autoPerfTime"}
+                                       label={"Performing Time in Quarter-Hours"}/>
+                            </Col>
+                            <Col s={4} className={"grid-example"}>
+                                <Input type={"number"} step={"0.01"} onChange={this.handleChange}
+                                       value={this.state.autoDocTime} name={"autoDocTime"}
+                                       label={"Documenting Time in Quarter-Hours"}/>
+                            </Col>
+                        </Row>
+                    </Card>
 
-                    <label>
-                        Documenting of manual time in quarters
-                        <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.manDocTime} name={"manDocTime"}/>
-                    </label>
+                    <Card>
+                        <Row>
+                            <Col s={"6"} className={"grid-example"}>
+                                <Input type={"date"} onChange={this.handleChange} value={this.state.started}
+                                       name={"started"} label={"started"} />
+                            </Col>
+                            <Col s={"6"} className={"grid-example"}>
+                                <Input type={"date"} onChange={this.handleChange} value={this.state.ended}
+                                       name={"ended"} label={"ended"} />
+                            </Col>
+                        </Row>
+                    </Card>
 
-                    <label>
-                        Preparation of automated tests in quarters
-                        <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.autoPrepTime} name={"autoPrepTime"}/>
-                    </label>
-
-                    <label>
-                        Performing of automated tests in quarters
-                        <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.autoPerfTime} name={"autoPerfTime"}/>
-                    </label>
-
-                    <label>
-                        Documenting of automated time in quarters
-                        <input type={"number"} step={"0.01"} onChange={this.handleChange}
-                               value={this.state.autoDocTime} name={"autoDocTime"}/>
-                    </label>
-
-                    <label>
-                        Started
-                        <input type={"date"} onChange={this.handleChange} value={this.state.started}
-                               name={"started"}/>
-                    </label>
-
-                    <label>
-                        Ended
-                        <input type={"date"} onChange={this.handleChange} value={this.state.ended}
-                               name={"ended"}/>
-                    </label>
-
-                    <input onChange={this.handleChange} type="submit" value="Submit"/>
+                    <Button onChange={this.handleChange}>Submit</Button>
                 </form>
             </div>
         );

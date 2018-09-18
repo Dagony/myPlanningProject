@@ -78,7 +78,7 @@ html, body {
 }
 
 .message-area {
-    background: #ebebeb;
+    /*background: #ebebeb;*/
     border: 1px solid #a4a4a4;
     font-family: Courier, monospace;
     height: 200px;
@@ -90,6 +90,7 @@ html, body {
     margin: 0;
     padding: 0;
     list-style: none;
+    background-color: transparent;
 }
 
 .message-area li:before {
