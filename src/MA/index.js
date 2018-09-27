@@ -9,6 +9,7 @@ class MA extends Component {
         this.state = {
             myData: null,
             maFactor: 1,
+            percentAuto: 1,
             numManTests: 1,
             numAutoTests: 1,
             timeManTests: 0.00,
@@ -38,6 +39,7 @@ class MA extends Component {
                     let automaticTestDocumentationTimeSpend = 0.0;
                     let manualTests = 0;
                     let automaticTests = 0;
+                    let percentAuto = 0.0;
 
                     responseData.map((item) => {
                         manualTestPreperationTimeSpend =  manualTestPreperationTimeSpend + item.manPrepTime;
@@ -54,6 +56,7 @@ class MA extends Component {
                         if ((item.manPrepTime + item.manPerfTime + item.manDocTime) > 0) {
                             manualTests++;
                         }
+                        percentAuto = (automaticTests / (automaticTests + manualTests)) * 100;
                         return true; // arrow functions need a return value.
                     });
 
@@ -67,7 +70,8 @@ class MA extends Component {
                         timeAutoDocTests: automaticTestDocumentationTimeSpend / 4,
                         timeAutoTests: automaticTestTimeSpend / 4,
                         numManTests: manualTests,
-                        numAutoTests: automaticTests
+                        numAutoTests: automaticTests,
+                        percentAuto: percentAuto
                     });
                     this.calculateMA();
                     return responseData;
@@ -83,6 +87,10 @@ class MA extends Component {
         return <div>
             <section id={"top-stats"} className="flex flex-wrap mxn2 mb4">
                 {this.state.myData}
+                <div className="col-6 md-col-3 p2">
+                    <h1 className={"h00 lh1 mo"}>{Number.parseFloat(this.state.percentAuto).toFixed(1)}%</h1>
+                    <p className={"h3 bold lh1 mo"}>of all tests are automatically performed</p>
+                </div>
                 <div className="col-6 md-col-3 p2">
                     <h1 className="h00 lh1 mo">{this.state.maFactor}</h1>
                     <p className="h3 bold lh1 mo">MA</p>
@@ -127,7 +135,7 @@ class MA extends Component {
         let att = this.state.timeAutoPrepTests + ((this.state.timeAutoPerfTests + this.state.timeAutoDocTests) * RF);
 
         this.setState({
-            maFactor: (mtt / att).toFixed(3)
+            maFactor: (att / mtt).toFixed(3)
         });
 
     }
