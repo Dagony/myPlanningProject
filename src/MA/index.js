@@ -87,11 +87,11 @@ class MA extends Component {
         return <div>
             <section id={"top-stats"} className="flex flex-wrap mxn2 mb4">
                 {this.state.myData}
-                <div className="col-6 md-col-3 p2">
+                <div className="col-6 lg-col-6 p2">
                     <h1 className={"h00 lh1 mo"}>{Number.parseFloat(this.state.percentAuto).toFixed(1)}%</h1>
                     <p className={"h3 bold lh1 mo"}>of all tests are automatically performed</p>
                 </div>
-                <div className="col-6 md-col-3 p2">
+                <div className="col-6 lg-col-6 p2">
                     <h1 className="h00 lh1 mo">{this.state.maFactor}</h1>
                     <p className="h3 bold lh1 mo">MA</p>
                 </div>
