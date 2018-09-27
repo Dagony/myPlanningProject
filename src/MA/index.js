@@ -89,38 +89,38 @@ class MA extends Component {
                 {this.state.myData}
                 <div className="col-6 lg-col-6 p2">
                     <h1 className={"h00 lh1 mo"}>{Number.parseFloat(this.state.percentAuto).toFixed(1)}%</h1>
-                    <p className={"h3 bold lh1 mo"}>of all tests are automatically performed</p>
+                    <p className={"h1 bold lh1 mo"}>of all tests are automatically performed</p>
                 </div>
                 <div className="col-6 lg-col-6 p2">
                     <h1 className="h00 lh1 mo">{this.state.maFactor}</h1>
-                    <p className="h3 bold lh1 mo">MA</p>
+                    <p className="h1 bold lh1 mo">MA</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{this.state.numManTests}</h1>
+                    <h3 className="h00 lh1 mo">{this.state.numManTests}</h3>
                     <p className="h3 bold lh1 mo"># Manual tests</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{this.state.numAutoTests}</h1>
+                    <h3 className="h00 lh1 mo">{this.state.numAutoTests}</h3>
                     <p className="h3 bold lh1 mo"># Automatic tests</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPrepTests).toFixed(1)}</h1>
+                    <h3 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPrepTests).toFixed(1)}</h3>
                     <p className="h3 bold lh1 mo">Hours of Preparation of Automated testing</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPerfTests).toFixed(1)}</h1>
+                    <h3 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPerfTests).toFixed(1)}</h3>
                     <p className="h3 bold lh1 mo">Hours of Performing of Automated testing</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoDocTests).toFixed(1)}</h1>
+                    <h3 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoDocTests).toFixed(1)}</h3>
                     <p className="h3 bold lh1 mo">Hours of Documenting of Automated testing</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPerfTests).toFixed(1)}</h1>
+                    <h3 className="h00 lh1 mo">{Number.parseFloat(this.state.timeAutoPerfTests).toFixed(1)}</h3>
                     <p className="h3 bold lh1 mo">Hours of Automated testing</p>
                 </div>
                 <div className="col-6 md-col-3 p2">
-                    <h1 className="h00 lh1 mo">{Number.parseFloat(this.state.timeManTests).toFixed(1)}</h1>
+                    <h3 className="h00 lh1 mo">{Number.parseFloat(this.state.timeManTests).toFixed(1)}</h3>
                     <p className="h3 bold lh1 mo">Hours of Manual testing</p>
                 </div>
             </section>
