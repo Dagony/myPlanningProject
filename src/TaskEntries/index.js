@@ -26,8 +26,6 @@ class TaskEntries extends Component {
     async refreshData() {
         let loadedData = await this.getData();
 
-        // console.log(loadedData);
-
         this.setState({
             taskentries: loadedData
         });
@@ -56,7 +54,6 @@ class TaskEntries extends Component {
                         <th>Project</th>
                         <th>issue-nr</th>
                         <th>issue-pr</th>
-                        <th>issue-link</th>
                         <th>man-time</th>
                         <th>auto-time</th>
                         <th>started</th>
@@ -71,16 +68,15 @@ class TaskEntries extends Component {
                             <td>{item.id}</td>
                             <td>{item.qa}</td>
                             <td>{item.project}</td>
-                            <td>{item.issueNr}</td>
-                            <td>{item.issuePr}</td>
-                            <td>{item.issueLink}</td>
+                            <td><a href={item.issueLink}>{item.issueNr}</a></td>
+                            <td><a href={"https://github.com/xillio/"+item.project+"/pull/"+item.issuePr}>{item.issuePr}</a></td>
                             <td>
-                                Prep: {item.manPrepTime}<br />
+                                preparation: {item.manPrepTime}<br />
                                 performance: {item.manPerfTime}<br />
                                 documentation: {item.manDocTime}
                             </td>
                             <td>
-                                Prep: {item.autoPrepTime}<br />
+                                preparation: {item.autoPrepTime}<br />
                                 performance: {item.autoPerfTime}<br />
                                 documentation: {item.autoDocTime}
                             </td>

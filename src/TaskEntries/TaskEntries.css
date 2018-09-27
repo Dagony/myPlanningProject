@@ -29,7 +29,7 @@
     border-collapse: collapse;
     height: 320px;
     margin: auto;
-    max-width: 600px;
+    max-width: 1400px;
     padding:5px;
     width: 100%;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
@@ -60,7 +60,7 @@ th:last-child {
 
 tr {
     border-top: 1px solid #C1C3D1;
-    border-bottom-: 1px solid #C1C3D1;
+    border-bottom: 1px solid #C1C3D1;
     color:#666B85;
     font-size:16px;
     font-weight:normal;
@@ -139,7 +139,7 @@ td.text-right {
 
 div.centered {
 
-    width: 1000px;
+    width: 1400px;
     margin: 0 auto;
 
 }
