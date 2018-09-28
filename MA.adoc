@@ -1,0 +1,28 @@
+:Author: Mark de Wit <mark.dewit@xillio.com>
+:Version: v0.1, 2018-09-27
+:toc: left
+
+Improve M.A. factor to 80 %
+===========================
+
+This document explains how the MA will be improved to 0.8.
+The improving of this factor will take three steps:
+
+- Inventorying which tests need to be performed manually
+- Inventorying which tests can be performed automatically
+- Researching how to convert tests that previously were performed manually
+- Take the actions to convert the tests that previously were performed manually
+
+=== Inventorying which tests need to be performed manually
+While checking back which tests were performed over the last couple of weeks, we need to conclude that actually all tests were performed automatically. There was some manual work in testing, but that should be considered to be preparation for the automatic testing.
+
+
+=== Inventorying which tests can be performed automatically
+For the last couple of months, there is very little number of tests that needed to be performed manually. The only tests that needed manual testing, were https://github.com/Xillio/xill-platform[Xill-platform] related. This software is in maintenance mode (and will be in the foreseeable future). So this type of testing is not expected to be performed in the coming year.
+When we started developing the Xillio API, the tests were created in http://www.getpostman.com[Postman].
+
+=== Researching how to convert tests that previously were performed manually
+Like said, the postman tests are converted into RestAssured tests. These RestAssured tests are written in Java (which is our development language of choice). This way we keep the tests close to the source code, which makes them easy to maintain and no extra architecture is to be added.
+
+=== Take the actions to convert the tests that previously were performed manually
+Our main focus in testing is to make all tests automated. We will not be able to automate every test.
